@@ -13,6 +13,9 @@ class Settings(BaseModel):
     database_url: str = Field(
         default_factory=lambda: os.getenv("DATABASE_URL", "").strip()
     )
+    gemini_api_key: str = Field(
+        default_factory=lambda: os.getenv("GEMINI_API_KEY", "").strip()
+    )
 
 
 @lru_cache

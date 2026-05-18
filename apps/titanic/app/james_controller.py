@@ -1,8 +1,5 @@
-from fastapi import FastAPI
-
 from titanic.app.jack_service import JackService
 from titanic.app.walter_reader import WalterReader
-app = FastAPI(title="Titanic (James)")
 
 
 class JamesController:
