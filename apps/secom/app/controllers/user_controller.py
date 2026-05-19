@@ -1,8 +1,10 @@
 import logging
+from typing import Annotated
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
+from secom.app.deps import get_user_controller
 from secom.app.schemas.user_schema import UserSchema
 from secom.app.services.user_service import UserService
 
@@ -26,32 +28,22 @@ class SignupResponse(BaseModel):
     role: str
 
 
-def _payload_for_log(user_schema: UserSchema) -> dict:
-    data = user_schema.model_dump()
-    password = data.get("password")
-    if password:
-        data["password"] = f"*** (len={len(password)})"
-    return data
-
-
 class UserController:
 
-    def __init__(self):
-        pass
+    def __init__(self, user_service: UserService) -> None:
+        self.user_service = user_service
 
-    def save_user(self, user_schema: UserSchema):
+    async def save_user(self, user_schema: UserSchema) -> None:
+        await self.user_service.save_user(user_schema)
         logger.info(
-            "[secom][Controller] save_user - 레이어 진입 | payload=%s",
-            _payload_for_log(user_schema),
+            "[UserController] save_user 레이어 완료 — user_id=%s email=%s name=%s role=%s",
+            user_schema.user_id,
+            user_schema.email,
+            user_schema.name,
+            user_schema.role,
         )
-        print(
-            f"[secom][Controller] save_user - 레이어 진입 | payload={_payload_for_log(user_schema)}",
-            flush=True,
-        )
-        user_service = UserService()
-        return user_service.save_user(user_schema)
 
-    def signup(self, body: SignupRequest) -> SignupResponse:
+    async def signup(self, body: SignupRequest) -> SignupResponse:
         if body.password != body.passwordConfirm:
             raise HTTPException(status_code=400, detail="비밀번호가 일치하지 않습니다.")
         if body.role not in ("admin", "user"):
@@ -65,7 +57,10 @@ class UserController:
             role=body.role,
         )
 
-        self.save_user(user_schema)
+        try:
+            await self.save_user(user_schema)
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e)) from e
 
         return SignupResponse(
             message="회원가입이 완료되었습니다.",
@@ -77,5 +72,8 @@ class UserController:
 
 
 @router.post("/signup", response_model=SignupResponse)
-def post_signup(body: SignupRequest) -> SignupResponse:
-    return UserController().signup(body)
+async def post_signup(
+    body: SignupRequest,
+    controller: Annotated[UserController, Depends(get_user_controller)],
+) -> SignupResponse:
+    return await controller.signup(body)

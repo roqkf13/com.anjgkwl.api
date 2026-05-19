@@ -104,6 +104,10 @@ def read_doro_data(doro: DoroDirectorDep):
     df = doro.get_data()
     return df.to_dict(orient="records")
 
+
+
+
+
 if __name__ == "__main__":
     import uvicorn
 
