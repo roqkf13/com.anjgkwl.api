@@ -22,6 +22,10 @@ def configure_engine(database_url: str) -> None:
     _async_session_maker = async_sessionmaker(_engine, expire_on_commit=False)
 
 
+def get_engine() -> AsyncEngine | None:
+    return _engine
+
+
 async def dispose_engine() -> None:
     global _engine, _async_session_maker
     if _engine is not None:
