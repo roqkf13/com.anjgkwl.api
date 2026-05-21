@@ -2,12 +2,11 @@ import logging
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
-from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
 
 from core.config import get_settings
 from matrix.app.chat_router import router as chat_router
+from scout.app import controllers as scout_controllers
 from secom.app.controllers.user_controller import router as secom_signup_router
 from secom.app.database_init import init_secom_tables
 from core.database import configure_engine, dispose_engine
@@ -15,8 +14,8 @@ from core.deps import (
     AsyncSessionDep,
     DatabaseHealthAdapterDep,
     DoroDirectorDep,
-    JamesControllerDep,
 )
+from titanic.app.controllers import titanic_routers
 
 logging.basicConfig(
     level=logging.INFO,
@@ -48,6 +47,10 @@ app.add_middleware(
 
 app.include_router(chat_router)
 app.include_router(secom_signup_router)
+for scout_router in scout_controllers.scout_routers:
+    app.include_router(scout_router)
+for titanic_router in titanic_routers:
+    app.include_router(titanic_router)
 
 
 @app.get("/")
@@ -61,42 +64,6 @@ async def read_db_health(
     adapter: DatabaseHealthAdapterDep,
 ):
     return await adapter.check_neon_now(db)
-
-
-@app.get("/titanic/data")
-def read_titanic_data(james: JamesControllerDep):
-    df = james.get_titanic_data()
-    return df.to_dict(orient="records")
-
-
-@app.get("/titanic/count")
-def read_titanic_count(james: JamesControllerDep):
-    count = james.get_titanic_data_count()
-    return {"count": count}
-
-
-@app.get("/titanic/count/survived")
-def read_titanic_count_survived(james: JamesControllerDep):
-    count = james.get_titanic_data_count_survived()
-    return {"count": count}
-
-
-@app.get("/titanic/count/dead")
-def read_titanic_count_dead(james: JamesControllerDep):
-    count = james.get_titanic_data_count_dead()
-    return {"count": count}
-
-
-@app.get("/titanic/tree")
-def read_titanic_tree(james: JamesControllerDep):
-    tree = james.has_decision_tree_model()
-    return {"tree": tree}
-
-
-@app.get("/titanic/model")
-def read_titanic_model(james: JamesControllerDep):
-    model_name = james.get_model_name_and_accuracy()
-    return JSONResponse(content=jsonable_encoder(model_name))
 
 
 @app.get("/doro/data")

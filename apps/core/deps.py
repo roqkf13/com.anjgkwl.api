@@ -9,11 +9,6 @@ from adapters.db_health_adapter import DatabaseHealthAdapter, get_db_health_adap
 from core.config import Settings, get_settings
 from core.database import get_sqlmodel_session
 from doro.app.doro_director import DoroDirector
-from titanic.app.james_controller import JamesController
-
-
-def get_james_controller() -> JamesController:
-    return JamesController()
 
 
 def get_doro_director() -> DoroDirector:
@@ -24,8 +19,6 @@ SettingsDep = Annotated[Settings, Depends(get_settings)]
 
 AsyncSessionDep = Annotated[AsyncSession, Depends(get_sqlmodel_session)]
 SqlModelSessionDep = AsyncSessionDep
-
-JamesControllerDep = Annotated[JamesController, Depends(get_james_controller)]
 
 DoroDirectorDep = Annotated[DoroDirector, Depends(get_doro_director)]
 
