@@ -117,5 +117,6 @@ $RECYCLE.BIN/
 .cache/
 tmp/
 temp/
+apps/scout/data/patch_translations/
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json

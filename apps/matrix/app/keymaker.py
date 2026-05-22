@@ -11,7 +11,7 @@ _ENV_PATH = _BACKEND_ROOT / ".env"
 
 load_dotenv(_ENV_PATH)
 
-DEFAULT_GEMINI_MODEL = "gemini-3-flash-preview"
+DEFAULT_GEMINI_MODEL = "gemini-3.1-flash-lite"
 
 
 @lru_cache

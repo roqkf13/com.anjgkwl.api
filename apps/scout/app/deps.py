@@ -2,10 +2,14 @@ from typing import Annotated
 
 from fastapi import Depends
 
+from scout.app.repositories.game_detail_repository import GameDetailRepository
+from scout.app.repositories.steam_news_repository import SteamNewsRepository
 from scout.app.repositories.metroidvania_repository import MetroidvaniaRepository
 from scout.app.repositories.openworld_repository import OpenworldRepository
 from scout.app.repositories.roguelike_repository import RoguelikeRepository
 from scout.app.repositories.soulslike_repository import SoulslikeRepository
+from scout.app.services.game_detail_service import GameDetailService
+from scout.app.services.patch_note_korean_service import PatchNoteKoreanService
 from scout.app.services.metroidvania_service import MetroidvaniaService
 from scout.app.services.openworld_service import OpenworldService
 from scout.app.services.roguelike_service import RoguelikeService
@@ -88,3 +92,33 @@ async def get_scout_director_controller():
     from scout.app.controllers.scout_director_controller import ScoutDirectorController
 
     return ScoutDirectorController()
+
+
+async def get_game_detail_repository() -> GameDetailRepository:
+    return GameDetailRepository()
+
+
+async def get_steam_news_repository() -> SteamNewsRepository:
+    return SteamNewsRepository()
+
+
+async def get_patch_note_korean_service() -> PatchNoteKoreanService:
+    return PatchNoteKoreanService()
+
+
+async def get_game_detail_service(
+    repository: Annotated[GameDetailRepository, Depends(get_game_detail_repository)],
+    steam_news: Annotated[SteamNewsRepository, Depends(get_steam_news_repository)],
+    patch_korean: Annotated[
+        PatchNoteKoreanService, Depends(get_patch_note_korean_service)
+    ],
+) -> GameDetailService:
+    return GameDetailService(repository, steam_news, patch_korean)
+
+
+async def get_game_detail_controller(
+    service: Annotated[GameDetailService, Depends(get_game_detail_service)],
+):
+    from scout.app.controllers.game_detail_controller import GameDetailController
+
+    return GameDetailController(service)
