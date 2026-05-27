@@ -15,7 +15,7 @@ from core.deps import (
     DatabaseHealthAdapterDep,
     DoroDirectorDep,
 )
-from titanic.app.controllers import titanic_routers
+from titanic.adapter.inbound.api.v1 import titanic_v1_routers
 
 logging.basicConfig(
     level=logging.INFO,
@@ -49,7 +49,7 @@ app.include_router(chat_router)
 app.include_router(secom_signup_router)
 for scout_router in scout_controllers.scout_routers:
     app.include_router(scout_router)
-for titanic_router in titanic_routers:
+for titanic_router in titanic_v1_routers:
     app.include_router(titanic_router)
 
 
