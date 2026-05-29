@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from titanic.app.ports.input.james_use_case import JamesUseCase
 from titanic.app.ports.output.james_repository import JamesRepository
 
 _ALLOWED_KEYS = frozenset({
@@ -32,7 +33,7 @@ def _prepare_records(records: list[dict[str, Any]]) -> list[dict[str, str]]:
     return prepared
 
 
-class JamesCommand:
+class JamesCommand(JamesUseCase):
     """업로드 레코드를 출력 포트(JamesRepository)에 저장합니다."""
 
     def __init__(self, repository: JamesRepository) -> None:

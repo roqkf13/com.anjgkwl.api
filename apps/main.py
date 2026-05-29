@@ -9,7 +9,7 @@ from matrix.app.chat_router import router as chat_router
 from scout.app import controllers as scout_controllers
 from secom.app.controllers.user_controller import router as secom_signup_router
 from secom.app.database_init import init_secom_tables
-from core.database import configure_engine, dispose_engine
+from core.database import configure_engine, dispose_engine, get_engine
 from core.deps import (
     AsyncSessionDep,
     DatabaseHealthAdapterDep,
@@ -24,11 +24,24 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+async def _init_titanic_tables() -> None:
+    from titanic.adapter.outbound.orm.titanic_model import Base
+
+    engine = get_engine()
+    if engine is None:
+        logger.warning("DATABASE_URL 없음 — titanic_passengers 테이블 생성을 건너뜁니다.")
+        return
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    logger.info("Neon titanic_passengers 테이블 준비 완료")
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     settings = get_settings()
     configure_engine(settings.database_url)
     await init_secom_tables()
+    await _init_titanic_tables()
     try:
         yield
     finally:

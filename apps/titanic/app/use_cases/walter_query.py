@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import pandas as pd
 
-from titanic.app.ports.input.walter_query_port import WalterQueryPort
+from titanic.app.ports.input.walter_use_case import WalterUseCase
 from titanic.app.ports.output.walter_repository import WalterRepository
 
 
-class WalterQuery(WalterQueryPort):
+class WalterQuery(WalterUseCase):
     def __init__(self, repository: WalterRepository) -> None:
         self._repository = repository
 

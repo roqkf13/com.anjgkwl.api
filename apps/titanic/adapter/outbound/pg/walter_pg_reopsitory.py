@@ -22,7 +22,7 @@ class WalterPgRepository(WalterRepository):
             "Survived": row.survived or "",
             "Pclass": row.pclass or "",
             "Name": row.name or "",
-            "Sex": row.gender or "",
+            "gender": row.gender or "",
             "Age": row.age or "",
             "SibSp": row.sibsp or "",
             "Parch": row.parch or "",

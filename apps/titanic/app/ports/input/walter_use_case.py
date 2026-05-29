@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 import pandas as pd
 
 
-class WalterQueryPort(ABC):
+class WalterUseCase(ABC):
     @abstractmethod
     async def get_titanic_data(self) -> pd.DataFrame:
         ...
