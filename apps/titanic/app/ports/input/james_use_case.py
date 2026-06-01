@@ -8,4 +8,5 @@ class JamesUseCase(ABC):
 
     @abstractmethod
     async def receive_uploaded_records(self, records: list[dict[str, Any]]) -> dict[str, Any]:
-        ...
+        """CSV 파일업로드 """
+        pass
