@@ -15,7 +15,7 @@ _TRACKED_FIELDS = (
     "Name",
     "gender",
     "Age",
-    "SibSp",
+    "Sib_Sp",
     "Parch",
     "Ticket",
     "Fare",

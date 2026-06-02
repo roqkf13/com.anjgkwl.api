@@ -24,7 +24,7 @@ class WalterPgRepository(WalterRepository):
             "Name": row.name or "",
             "gender": row.gender or "",
             "Age": row.age or "",
-            "SibSp": row.sibsp or "",
+            "Sib_Sp": row.sib_sp or "",
             "Parch": row.parch or "",
             "Ticket": row.ticket or "",
             "Fare": row.fare or "",

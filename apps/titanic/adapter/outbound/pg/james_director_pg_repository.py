@@ -6,10 +6,10 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from titanic.adapter.outbound.orm.titanic_model import TitanicRecord
-from titanic.app.ports.output.james_repository import JamesRepository
+from titanic.app.ports.output.james_director_repository import JamesDirectorRepository
 
 
-class JamesPgRepository(JamesRepository):
+class JamesDirectorPgRepository(JamesDirectorRepository):
     def __init__(self, session: AsyncSession) -> None:
         self._session = session
 
@@ -38,13 +38,13 @@ class JamesPgRepository(JamesRepository):
         items = [
             {
                 "id": row.id,
-                "passenger": row.passenger,
+                "passenger_id": row.passenger_id,
                 "survived": row.survived,
                 "pclass": row.pclass,
                 "name": row.name,
                 "gender": row.gender,
                 "age": row.age,
-                "sibsp": row.sibsp,
+                "sib_sp": row.sib_sp,
                 "parch": row.parch,
                 "ticket": row.ticket,
                 "fare": row.fare,

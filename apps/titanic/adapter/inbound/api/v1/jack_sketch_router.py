@@ -4,9 +4,9 @@ from fastapi import APIRouter, Depends, Query
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from core.database import get_sqlmodel_session
-from titanic.adapter.outbound.pg.walter_pg_reopsitory import WalterPgRepository
+
 from titanic.app.ports.input.walter_use_case import WalterUseCase
-from titanic.app.ports.output.walter_repository import WalterRepository
+
 from titanic.app.use_cases.walter_query import WalterQuery
 
 jack_sketch_router = APIRouter(prefix="/titanic/jack", tags=["jack_sketch"])

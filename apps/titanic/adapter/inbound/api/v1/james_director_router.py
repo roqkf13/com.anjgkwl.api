@@ -5,30 +5,29 @@ from io import StringIO
 from typing import Any
 
 from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
-from sqlmodel.ext.asyncio.session import AsyncSession
 
-from core.database import get_sqlmodel_session
+from titanic.adapter.inbound.api.deps import get_james_director_use_case
 from titanic.adapter.inbound.api.schemas.james_director_schema import (
-    JamesPassengerListResponse,
-    JamesUploadResponse,
+    JamesDirectorListResponse,
+    JamesDirectorUploadResponse,
 )
-from titanic.adapter.outbound.pg.james_pg_repository import JamesPgRepository
-from titanic.app.ports.input.james_use_case import JamesUseCase
-from titanic.app.ports.output.james_repository import JamesRepository
-from titanic.app.use_cases.james_command_interactor import JamesCommandInteractor
+from titanic.app.ports.input.james_director_use_case import JamesDirectorUseCase
 
-james_router = APIRouter(prefix="/titanic/james", tags=["james"])
+
+james_director_router = APIRouter(prefix="/titanic/james_director", tags=["james_director"])
 
 _HEADER_ALIASES: dict[str, str] = {
-    "passengerid": "passenger",
-    "passenger": "passenger",
+    "passengerid": "passenger_id",
+    "passenger_id": "passenger_id",
+    "passenger": "passenger_id",
     "survived": "survived",
     "pclass": "pclass",
     "name": "name",
     "sex": "gender",
     "gender": "gender",
     "age": "age",
-    "sibsp": "sibsp",
+    "sibsp": "sib_sp",
+    "sib_sp": "sib_sp",
     "parch": "parch",
     "ticket": "ticket",
     "fare": "fare",
@@ -37,7 +36,7 @@ _HEADER_ALIASES: dict[str, str] = {
 }
 
 
-def _normalize_row(row: dict[str, Any]) -> dict[str, str]:
+def _normalize_titanic_row(row: dict[str, Any]) -> dict[str, str]:
     normalized: dict[str, str] = {}
     for raw_key, value in row.items():
         if raw_key is None:
@@ -63,38 +62,28 @@ async def _parse_csv_file(file: UploadFile) -> list[dict[str, str]]:
     if reader.fieldnames is None:
         raise HTTPException(status_code=400, detail="CSV 헤더를 읽을 수 없습니다.")
 
-    return [_normalize_row(row) for row in reader]
+    return [_normalize_titanic_row(row) for row in reader]
 
 
-@james_router.get("/passengers", response_model=JamesPassengerListResponse)
+@james_director_router.get("/passengers", response_model=JamesDirectorListResponse)
 async def list_passengers(
-    
     page: int = Query(default=1, ge=1),
     page_size: int = Query(default=50, ge=1, le=200),
-) -> JamesPassengerListResponse:
-    
-    total, items = await repository.list_paginated(page, page_size)
-    return JamesPassengerListResponse(
-        total=total,
-        page=page,
-        page_size=page_size,
-        items=items,
-    )
+    use_case: JamesDirectorUseCase = Depends(get_james_director_use_case),
+) -> JamesDirectorListResponse:
+    result = await use_case.list_passengers(page, page_size)
+    return JamesDirectorListResponse(**result)
 
 
-@james_router.post("/upload", response_model=JamesUploadResponse)
+@james_director_router.post("/upload", response_model=JamesDirectorUploadResponse)
 async def upload_titanic_file(
     file: UploadFile = File(...),
-    
-) -> JamesUploadResponse:
+    use_case: JamesDirectorUseCase = Depends(get_james_director_use_case),
+) -> JamesDirectorUploadResponse:
     """Titanic CSV 파일을 업로드하고 NeonDB에 저장합니다."""
-    records = await _parse_csv_file(file)
-    if not records:
+    normalized_rows = await _parse_csv_file(file)
+    if not normalized_rows:
         raise HTTPException(status_code=400, detail="저장할 행이 없습니다.")
 
-    # recods 에 상위 5줄 출력 하는 로그
-    print("[제임스 라우터] 업로드된 CSV 파일에서 상위 5줄 출력:")
-    for record in records[:5]:
-        print(record)
-
-
+    result = await use_case.receive_uploaded_records(normalized_rows)
+    return JamesDirectorUploadResponse(**result)

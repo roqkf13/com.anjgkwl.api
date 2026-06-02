@@ -1,4 +1,4 @@
-from titanic.app.ports.output.james_repository import JamesRepository
-from titanic.app.ports.output.walter_repository import WalterRepository
+from titanic.app.ports.output.james_director_repository import JamesDirectorRepository
+from titanic.app.ports.output.walter_director_repository import WalterDirectorRepository
 
-__all__ = ["JamesRepository", "WalterRepository"]
+__all__ = ["JamesDirectorRepository", "WalterDirectorRepository"]

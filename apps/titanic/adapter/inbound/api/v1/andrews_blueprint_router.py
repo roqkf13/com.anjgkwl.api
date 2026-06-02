@@ -5,13 +5,13 @@ from fastapi import APIRouter
 andrews_blueprint_router = APIRouter(prefix="/titanic/andrews", tags=["andrews_blueprint"])
 
 _BLUEPRINT_COLUMNS = [
-    {"field": "PassengerId", "alias": "passenger", "description": "승객 식별자"},
+    {"field": "PassengerId", "alias": "passenger_id", "description": "승객 식별자"},
     {"field": "Survived", "alias": "survived", "description": "생존 여부 (0=사망, 1=생존)"},
     {"field": "Pclass", "alias": "pclass", "description": "객실 등급 (1, 2, 3)"},
     {"field": "Name", "alias": "name", "description": "승객 이름"},
     {"field": "gender", "alias": "gender", "description": "성별"},
     {"field": "Age", "alias": "age", "description": "나이"},
-    {"field": "SibSp", "alias": "sibsp", "description": "동승 형제·배우자 수"},
+    {"field": "Sib_Sp", "alias": "sib_sp", "description": "동승 형제·배우자 수"},
     {"field": "Parch", "alias": "parch", "description": "동승 부모·자녀 수"},
     {"field": "Ticket", "alias": "ticket", "description": "티켓 번호"},
     {"field": "Fare", "alias": "fare", "description": "운임"},
