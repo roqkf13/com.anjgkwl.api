@@ -1,4 +1,3 @@
-from titanic.app.ports.input.james_use_case import JamesUseCase
-from titanic.app.ports.input.walter_use_case import WalterUseCase
+from titanic.app.ports.input.james_director_use_case import JamesDirectorUseCase
 
-__all__ = ["JamesUseCase", "WalterUseCase"]
+__all__ = ["JamesDirectorUseCase"]

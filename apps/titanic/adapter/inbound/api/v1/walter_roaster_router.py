@@ -1,42 +1,26 @@
-from __future__ import annotations
+import logging
 
 from fastapi import APIRouter, Depends
-from sqlmodel.ext.asyncio.session import AsyncSession
 
-from core.database import get_sqlmodel_session
-from titanic.adapter.outbound.pg.walter_pg_reopsitory import WalterPgRepository
-from titanic.app.ports.input.walter_use_case import WalterUseCase
-from titanic.app.ports.output.walter_repository import WalterRepository
-from titanic.app.use_cases.walter_query import WalterQuery
+from titanic.adapter.inbound.api.schemas.walter_roaster_schema import WalterRoasterSchema
+from titanic.app.dependencies.walter_roaster import get_walter_roaster_use_case
+from titanic.app.ports.input.walter_roaster_use_case import WalterRoasterUseCase
 
-router = APIRouter(prefix="/titanic", tags=["walter"])
+logger = logging.getLogger(__name__)
+walter_roaster_router = APIRouter(prefix="/titanic/walter", tags=["walter"])
 
 
-def _walter_use_case(db: AsyncSession) -> WalterUseCase:
-    repository: WalterRepository = WalterPgRepository(db)
-    return WalterQuery(repository)
+@walter_roaster_router.get("/myself")
+async def introduce_myself(
+    use_case: WalterRoasterUseCase = Depends(get_walter_roaster_use_case),
+) -> WalterRoasterSchema:
+    
 
 
-@router.get("/data")
-async def read_titanic_data(db: AsyncSession = Depends(get_sqlmodel_session)):
-    use_case = _walter_use_case(db)
-    df = await use_case.get_titanic_data()
-    return df.to_dict(orient="records")
-
-
-@router.get("/count")
-async def read_titanic_count(db: AsyncSession = Depends(get_sqlmodel_session)):
-    use_case = _walter_use_case(db)
-    return {"count": await use_case.get_titanic_data_count()}
-
-
-@router.get("/count/survived")
-async def read_titanic_count_survived(db: AsyncSession = Depends(get_sqlmodel_session)):
-    use_case = _walter_use_case(db)
-    return {"count": await use_case.get_titanic_data_count_survived()}
-
-
-@router.get("/count/dead")
-async def read_titanic_count_dead(db: AsyncSession = Depends(get_sqlmodel_session)):
-    use_case = _walter_use_case(db)
-    return {"count": await use_case.get_titanic_data_count_dead()}
+    return await use_case.introduce_myself(
+        WalterRoasterSchema(
+            id=2,
+            name="Walter Nicholas",
+            memo="타이타닉의 일등 항해사, 승객 명단 관리 담당.",
+        )
+    )

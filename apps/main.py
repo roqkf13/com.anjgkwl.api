@@ -1,15 +1,26 @@
 import logging
+import sys
 from contextlib import asynccontextmanager
+from pathlib import Path
+
+_BACKEND_ROOT = Path(__file__).resolve().parent.parent
+if str(_BACKEND_ROOT) not in sys.path:
+    sys.path.insert(0, str(_BACKEND_ROOT))
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from core.config import get_settings
-from matrix.app.chat_router import router as chat_router
-from scout.app import controllers as scout_controllers
+from core.matrix.chat_router import router as chat_router
+from scout.adapter.inbound.api import scout_routers
 from friday13th.adapter.inbound.api.v1 import friday13th_v1_routers
 from friday13th.adapter.outbound.orm.user_model import Base as Friday13thBase
-from core.database import configure_engine, dispose_engine, get_engine
+from core.database import (
+    configure_engine,
+    create_titanic_tables,
+    dispose_engine,
+    get_engine,
+)
 from core.deps import (
     AsyncSessionDep,
     DatabaseHealthAdapterDep,
@@ -35,15 +46,12 @@ async def _init_friday13th_tables() -> None:
 
 
 async def _init_titanic_tables() -> None:
-    from titanic.adapter.outbound.orm.titanic_model import Base
-
     engine = get_engine()
     if engine is None:
-        logger.warning("DATABASE_URL 없음 — titanic_passengers 테이블 생성을 건너뜁니다.")
+        logger.warning("DATABASE_URL 없음 — titanic_person/booking 테이블 생성을 건너뜁니다.")
         return
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-    logger.info("Neon titanic_passengers 테이블 준비 완료")
+    await create_titanic_tables()
+    logger.info("Neon titanic_person / titanic_booking 테이블 준비 완료")
 
 
 @asynccontextmanager
@@ -71,7 +79,7 @@ app.add_middleware(
 app.include_router(chat_router)
 for friday13th_router in friday13th_v1_routers:
     app.include_router(friday13th_router)
-for scout_router in scout_controllers.scout_routers:
+for scout_router in scout_routers:
     app.include_router(scout_router)
 app.include_router(titanic_router)
 

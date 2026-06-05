@@ -24,7 +24,7 @@ class JamesDirectorInteractor(JamesDirectorUseCase):
         saved = await self._repository.save_all(persist_rows)
         return {
             "count": len(schema_rows),
-            "records": schema_rows,
+            "records": schema_rows[:5],
             "stored_count": saved,
             "message": f"{saved}건을 저장했습니다.",
         }
