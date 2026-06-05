@@ -7,6 +7,7 @@ from scout.app.dtos.game_detail_dto import (
 )
 from scout.app.ports.input.game_detail_use_case import GameDetailUseCase
 from scout.app.ports.output.game_detail_repository import GameDetailRepository
+from scout.app.ports.output.mod_repository import ModRepository
 from scout.app.ports.output.patch_note_translator import PatchNoteTranslator
 from scout.app.ports.output.patch_translation_repository import (
     PatchTranslationRepository,
@@ -65,11 +66,13 @@ class GameDetailInteractor(GameDetailUseCase):
         steam_news: SteamNewsRepository,
         patch_translator: PatchNoteTranslator,
         translation_store: PatchTranslationRepository,
+        mod_repository: ModRepository,
     ) -> None:
         self._repository = repository
         self._steam_news = steam_news
         self._patch_translator = patch_translator
         self._translation_store = translation_store
+        self._mod_repository = mod_repository
 
     async def get_game_detail(self, steam_app_id: int) -> GameDetailDto | None:
         detail = await self._repository.get_detail(steam_app_id)
@@ -127,6 +130,23 @@ class GameDetailInteractor(GameDetailUseCase):
                 steam_app_id,
                 len(fallback),
             )
+
+        appearance_mods, functional_mods = (
+            await self._mod_repository.fetch_mods_for_game(steam_app_id)
+        )
+        detail = detail.model_copy(
+            update={
+                "appearance_mods": appearance_mods,
+                "functional_mods": functional_mods,
+            }
+        )
+        logger.info(
+            "[GameDetailInteractor] mods steam_app_id=%s "
+            "appearance=%s functional=%s",
+            steam_app_id,
+            len(appearance_mods),
+            len(functional_mods),
+        )
 
         return detail
 

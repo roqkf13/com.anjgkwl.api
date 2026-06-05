@@ -26,11 +26,18 @@ class PatchNoteDto(BaseModel):
     model_config = {"populate_by_name": True}
 
 
+ModKind = Literal["appearance", "functional"]
+ModSource = Literal["nexus", "workshop", "curated", "github"]
+
+
 class ModDto(BaseModel):
     id: str
+    mod_kind: ModKind = Field(..., serialization_alias="modKind")
     name: str
     author: str
     summary: str
+    characters: list[str] = Field(default_factory=list)
+    source: ModSource | None = None
     source_url: str | None = Field(default=None, serialization_alias="sourceUrl")
 
     model_config = {"populate_by_name": True}
@@ -54,7 +61,12 @@ class GameDetailDto(BaseModel):
     patch_notes: list[PatchNoteDto] = Field(
         default_factory=list, serialization_alias="patchNotes"
     )
-    mods: list[ModDto] = Field(default_factory=list)
+    appearance_mods: list[ModDto] = Field(
+        default_factory=list, serialization_alias="appearanceMods"
+    )
+    functional_mods: list[ModDto] = Field(
+        default_factory=list, serialization_alias="functionalMods"
+    )
     videos: list[RelatedVideoDto] = Field(default_factory=list)
 
     model_config = {"populate_by_name": True}

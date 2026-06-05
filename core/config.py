@@ -16,6 +16,12 @@ class Settings(BaseModel):
     gemini_api_key: str = Field(
         default_factory=lambda: os.getenv("GEMINI_API_KEY", "").strip()
     )
+    nexus_api_key: str = Field(
+        default_factory=lambda: os.getenv("NEXUS_API_KEY", "").strip()
+    )
+    steam_api_key: str = Field(
+        default_factory=lambda: os.getenv("STEAM_API_KEY", "").strip()
+    )
 
 
 @lru_cache

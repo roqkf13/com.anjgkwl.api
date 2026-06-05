@@ -1,6 +1,5 @@
 from scout.app.dtos.game_detail_dto import (
     GameDetailDto,
-    ModDto,
     PatchNoteDto,
     RelatedVideoDto,
 )
@@ -209,14 +208,8 @@ class GameDetailStaticRepository(GameDetailRepository):
             steam_store_url=_steam_store_url(steam_app_id),
             official_site_url=_official_site_url(steam_app_id),
             patch_notes=patch_notes,
-            mods=[
-                ModDto(
-                    id=f"{steam_app_id}-mod-1",
-                    name="커뮤니티 모드 예시",
-                    author="커뮤니티",
-                    summary="Steam 창작마당·Nexus Mods 등 모드 목록이 이 영역에 표시됩니다.",
-                ),
-            ],
+            appearance_mods=[],
+            functional_mods=[],
             videos=[
                 RelatedVideoDto(
                     id=f"{steam_app_id}-video-1",

@@ -109,4 +109,12 @@ def read_doro_data(doro: DoroDirectorDep):
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    _APPS_DIR = Path(__file__).resolve().parent
+    # app_dir 필수: backend/main.py(구 엔트리)와 이름 충돌 방지
+    uvicorn.run(
+        "main:app",
+        host="127.0.0.1",
+        port=8000,
+        reload=True,
+        app_dir=str(_APPS_DIR),
+    )
