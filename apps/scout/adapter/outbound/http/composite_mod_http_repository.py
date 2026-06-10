@@ -18,6 +18,7 @@ from scout.adapter.outbound.static.curated_appearance_mod_repository import (
 from scout.app.dtos.game_detail_dto import ModDto
 from scout.app.ports.output.mod_repository import ModRepository
 from scout.domain.mod_character_rules import infer_mod_characters
+from scout.domain.mod_dedupe import mod_dedupe_key
 from scout.domain.mod_source_url import resolve_mod_source_url
 
 logger = logging.getLogger(__name__)
@@ -50,7 +51,7 @@ def _dedupe_mods(mods: list[ModDto]) -> list[ModDto]:
     seen: set[str] = set()
     out: list[ModDto] = []
     for mod in mods:
-        key = mod.id.strip().lower()
+        key = mod_dedupe_key(mod)
         if key in seen:
             continue
         seen.add(key)

@@ -19,7 +19,7 @@ _ALL_STS2_CHARACTERS = [
 _STS2_APPEARANCE: list[ModDto] = [
     # --- 리젠트 ---
     ModDto(
-        id="2868840-curated-nexus-344",
+        id="2868840-nexus-344",
         mod_kind="appearance",
         name="Regent Cards Anime Rework",
         author="DoublePigeon",
@@ -29,7 +29,7 @@ _STS2_APPEARANCE: list[ModDto] = [
         source_url="https://www.nexusmods.com/slaythespire2/mods/344",
     ),
     ModDto(
-        id="2868840-curated-nexus-760",
+        id="2868840-nexus-760",
         mod_kind="appearance",
         name="Card Portraits - Regent",
         author="Hatk",
@@ -52,20 +52,17 @@ _STS2_APPEARANCE: list[ModDto] = [
         source_url="https://www.patreon.com/posts/sts2-regentskin-152923743",
     ),
     ModDto(
-        id="2868840-curated-nexus-princess-icons",
+        id="2868840-nexus-895",
         mod_kind="appearance",
-        name="Princess Regent and Silent Icons and Text",
-        author="커뮤니티",
-        characters=["regent", "silent"],
+        name="Icons and Text Changes for Princess Regent Silent and Necrobinder",
+        author="rfmnt",
+        characters=["regent", "silent", "necrobinder"],
         summary=(
             "캐릭터 선택·전투 UI 아이콘·대사를 여성형 톤으로 맞춘 외형 보조 모드. "
-            "anaertailin 리젠트 스킨과 함께 쓰는 경우가 많습니다."
+            "anaertailin 리젠트·사일런트·네크로바인더 스킨과 함께 쓰는 경우가 많습니다."
         ),
         source="nexus",
-        source_url=(
-            "https://www.nexusmods.com/slaythespire2/mods/"
-            "?keyword=Princess+Regent+and+Silent+Icons+and+Text"
-        ),
+        source_url="https://www.nexusmods.com/slaythespire2/mods/895",
     ),
     # --- 사일런트 ---
     ModDto(
@@ -79,7 +76,7 @@ _STS2_APPEARANCE: list[ModDto] = [
         source_url="https://www.patreon.com/posts/sts2-silent-skin-154478527",
     ),
     ModDto(
-        id="2868840-curated-nexus-1052",
+        id="2868840-nexus-1052",
         mod_kind="appearance",
         name="Chaos Zero Nightmare - Tressa (Silent Skin)",
         author="PelleasWorks",
@@ -90,7 +87,7 @@ _STS2_APPEARANCE: list[ModDto] = [
     ),
     # --- 아이언클래드 ---
     ModDto(
-        id="2868840-curated-nexus-854",
+        id="2868840-nexus-854",
         mod_kind="appearance",
         name="Ironclad Skin - Crimson Blade Valkyrie",
         author="OLC and ATA",
@@ -100,7 +97,7 @@ _STS2_APPEARANCE: list[ModDto] = [
         source_url="https://www.nexusmods.com/slaythespire2/mods/854",
     ),
     ModDto(
-        id="2868840-curated-nexus-848",
+        id="2868840-nexus-848",
         mod_kind="appearance",
         name="Red Mist",
         author="hasoro",
@@ -110,7 +107,7 @@ _STS2_APPEARANCE: list[ModDto] = [
         source_url="https://www.nexusmods.com/slaythespire2/mods/848",
     ),
     ModDto(
-        id="2868840-curated-nexus-914",
+        id="2868840-nexus-914",
         mod_kind="appearance",
         name="Chaos Zero Nightmare - Chizuru (Ironclad Skin)",
         author="PelleasWorks",
@@ -120,7 +117,7 @@ _STS2_APPEARANCE: list[ModDto] = [
         source_url="https://www.nexusmods.com/slaythespire2/mods/914",
     ),
     ModDto(
-        id="2868840-curated-nexus-875",
+        id="2868840-nexus-875",
         mod_kind="appearance",
         name="STS2 FSF Richard as Ironclad",
         author="커뮤니티",
@@ -131,7 +128,7 @@ _STS2_APPEARANCE: list[ModDto] = [
     ),
     # --- 디펙트 ---
     ModDto(
-        id="2868840-curated-nexus-769",
+        id="2868840-nexus-769",
         mod_kind="appearance",
         name="Anime Defect Skin Mod",
         author="Painttist",
@@ -141,7 +138,7 @@ _STS2_APPEARANCE: list[ModDto] = [
         source_url="https://www.nexusmods.com/slaythespire2/mods/769",
     ),
     ModDto(
-        id="2868840-curated-nexus-719",
+        id="2868840-nexus-719",
         mod_kind="appearance",
         name="SaYi_998 Librarian - Defect Replacement",
         author="dzycdz",
@@ -152,7 +149,7 @@ _STS2_APPEARANCE: list[ModDto] = [
     ),
     # --- 네크로바인더 ---
     ModDto(
-        id="2868840-curated-nexus-858",
+        id="2868840-nexus-858",
         mod_kind="appearance",
         name="Booba Necrobinder Mod",
         author="Team JCI",
@@ -165,33 +162,27 @@ _STS2_APPEARANCE: list[ModDto] = [
         source_url="https://www.nexusmods.com/slaythespire2/mods/858",
     ),
     ModDto(
-        id="2868840-curated-nexus-hatk-necrobinder",
+        id="2868840-nexus-936",
         mod_kind="appearance",
         name="Card Portraits - Necrobinder",
         author="Hatk",
         summary="네크로바인더 카드 초상화를 애니메 스타일 아트로 교체합니다.",
         characters=["necrobinder"],
         source="nexus",
-        source_url=(
-            "https://www.nexusmods.com/slaythespire2/mods/"
-            "?keyword=Card+Portraits+Necrobinder+Hatk"
-        ),
+        source_url="https://www.nexusmods.com/slaythespire2/mods/936",
     ),
     ModDto(
-        id="2868840-curated-nexus-vaalmonica-necrobinder",
+        id="2868840-nexus-494",
         mod_kind="appearance",
-        name="Necrobinder Visuals - Vaalmonica",
-        author="커뮤니티",
-        summary="네크로바인더 외형을 유희왕 바알모니카 캐릭터 테마로 교체하는 비주얼 모드.",
+        name="Necrobinder Visuals Mod - Vaalmonica",
+        author="Hr_Rv",
+        summary="네크로바인더·오스티 외형을 유희왕 바알모니카(세레트리체·안젤로&데모네) 테마로 교체합니다.",
         characters=["necrobinder"],
         source="nexus",
-        source_url=(
-            "https://www.nexusmods.com/slaythespire2/mods/"
-            "?keyword=Vaalmonica+Necrobinder"
-        ),
+        source_url="https://www.nexusmods.com/slaythespire2/mods/494",
     ),
     ModDto(
-        id="2868840-curated-nexus-623",
+        id="2868840-nexus-623",
         mod_kind="appearance",
         name="Castorice (Necrobinder) Card Portraits",
         author="airvince",
@@ -211,14 +202,13 @@ _STS2_APPEARANCE: list[ModDto] = [
         author="커뮤니티",
         summary=(
             "리젠트 외형을 메스가키 톤으로 바꾸는 비공식 스킨. "
-            "anaertailin 리젠트 스킨과 둘 중 하나만 설치 (동시 설치 시 충돌)."
+            "Nexus/Workshop 미등록 — 디시 모음글(5-2) 경유 개인 사이트에서 다운로드. "
+            "anaertailin 리젠트 스킨과 둘 중 하나만 설치 (동시 설치 시 충돌). "
+            "연관: Nexus #880은 보이스 모드(Voice Framework)이며 스킨과 별개."
         ),
         characters=["regent"],
-        source="nexus",
-        source_url=(
-            "https://www.nexusmods.com/slaythespire2/mods/"
-            "?keyword=Mesugaki+Regent+skin+mode"
-        ),
+        source="curated",
+        source_url="https://m.dcinside.com/board/slay/333106",
     ),
     ModDto(
         id="2868840-curated-ironclad-anaertailin",
@@ -247,46 +237,34 @@ _STS2_APPEARANCE: list[ModDto] = [
         source_url="https://www.patreon.com/posts/sts2-0-8-156971990",
     ),
     ModDto(
-        id="2868840-curated-defect-community",
-        mod_kind="appearance",
-        name="Defect Skin (커뮤니티 포팅)",
-        author="커뮤니티",
-        summary=(
-            "디펙트 외형을 커뮤니티 제작 스킨으로 교체하는 비공식 모드. "
-            "디시 모음글의 Google Drive 링크에서 배포."
-        ),
-        characters=["defect"],
-        source="curated",
-        source_url="https://m.dcinside.com/board/slay/333106",
-    ),
-    ModDto(
-        id="2868840-curated-github-merchant2cute",
+        id="2868840-nexus-814",
         mod_kind="appearance",
         name="Merchant2Cute",
         author="LinXce",
         summary=(
             "상인·가짜 상인 NPC 외형을 귀여운 여성형 비주얼로 교체. "
-            "GitHub 릴리스 또는 Nexus #814. 압축 변형 중 하나만 설치."
+            "압축 변형(손/맨발/스타킹) 중 하나만 설치."
         ),
         characters=["other"],
-        source="github",
-        source_url="https://github.com/LinXce/merchant-2-cute/releases",
+        source="nexus",
+        source_url="https://www.nexusmods.com/slaythespire2/mods/814",
     ),
     ModDto(
-        id="2868840-curated-ancient-waifus",
+        id="2868840-curated-dcinside-skins",
         mod_kind="appearance",
-        name="Ancient Waifus (고대의 존재 스킨)",
+        name="디시 모음 스킨 (Defect·Ancient Waifus 등)",
         author="커뮤니티",
         summary=(
-            "선행 이벤트(고대의 존재) 스파인·카드 아트를 묶은 mixed 스킨 팩. "
-            "Sts2SkinManager와 함께 쓰는 경우가 많습니다."
+            "디시 슬레이 갤 모음글에 올라온 비공식 스킨 팩. "
+            "디펙트 커뮤니티 포팅, Ancient Waifus(고대의 존재) 등 — "
+            "본문 Google Drive 링크에서 개별 다운로드. Sts2SkinManager와 함께 쓰는 경우가 많습니다."
         ),
         characters=list(_ALL_STS2_CHARACTERS),
         source="curated",
         source_url="https://m.dcinside.com/board/slay/333106",
     ),
     ModDto(
-        id="2868840-curated-star-rail-replace",
+        id="2868840-nexus-561",
         mod_kind="appearance",
         name="Honkai Star Rail Replace (5캐릭터)",
         author="xumoge3723",
@@ -296,14 +274,11 @@ _STS2_APPEARANCE: list[ModDto] = [
         ),
         characters=list(_ALL_STS2_CHARACTERS),
         source="nexus",
-        source_url=(
-            "https://www.nexusmods.com/slaythespire2/mods/"
-            "?keyword=star+rail+Replace+xumoge3723"
-        ),
+        source_url="https://www.nexusmods.com/slaythespire2/mods/561",
     ),
     # --- 전 캐릭터 팩 ---
     ModDto(
-        id="2868840-curated-nexus-61",
+        id="2868840-nexus-61",
         mod_kind="appearance",
         name="Guise",
         author="Tbonex28b",
@@ -316,7 +291,7 @@ _STS2_APPEARANCE: list[ModDto] = [
         source_url="https://www.nexusmods.com/slaythespire2/mods/61",
     ),
     ModDto(
-        id="2868840-curated-nexus-163",
+        id="2868840-nexus-163",
         mod_kind="appearance",
         name="STS2-Arknights-Pack",
         author="fxhere1024",

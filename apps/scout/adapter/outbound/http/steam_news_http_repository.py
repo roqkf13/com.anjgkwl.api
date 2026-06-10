@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 _STEAM_NEWS_URL = "https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/"
 _DEFAULT_COUNT = 5
-_FETCH_TIMEOUT_SEC = 20
+_FETCH_TIMEOUT_SEC = 8
 _STEAM_CLAN_CDN = "https://clan.fastly.steamstatic.com/images"
 
 

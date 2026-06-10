@@ -3,7 +3,7 @@ from __future__ import annotations
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from core.database import get_sqlmodel_session
+from core.matrix.grid_oracle_database import get_db as get_sqlmodel_session
 from friday13th.adapter.inbound.api.schemas.pamela_signup_request import (
     SignupRequest,
     SignupResponse,

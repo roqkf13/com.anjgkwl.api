@@ -21,7 +21,7 @@ for path in (_backend, _apps):
 load_dotenv(_backend / ".env")
 load_dotenv(_apps / ".env")
 
-from core.matrix.oracle_database import import_titanic_metadata  # noqa: E402
+from core.matrix.grid_oracle_database import import_titanic_metadata  # noqa: E402
 
 config = context.config
 if config.config_file_name is not None:

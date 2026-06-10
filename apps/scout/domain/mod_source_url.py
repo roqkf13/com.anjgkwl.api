@@ -7,7 +7,7 @@ import urllib.parse
 
 from scout.app.dtos.game_detail_dto import ModDto
 
-_NEXUS_MOD_ID_RE = re.compile(r"-nexus-(\d+)$")
+_NEXUS_MOD_ID_RE = re.compile(r"nexus-(\d+)$", re.I)
 _WORKSHOP_FILE_ID_RE = re.compile(r"-workshop-(\d+)$")
 
 _PATREON_CREATOR = "https://www.patreon.com/cw/anaertailin/posts"

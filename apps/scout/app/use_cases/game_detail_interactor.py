@@ -1,3 +1,4 @@
+import asyncio
 import logging
 
 from scout.app.dtos.game_detail_dto import (
@@ -79,7 +80,17 @@ class GameDetailInteractor(GameDetailUseCase):
         if not detail:
             return None
 
-        steam_notes = await self._steam_news.fetch_patch_notes(steam_app_id)
+        steam_notes_task = asyncio.create_task(
+            self._steam_news.fetch_patch_notes(steam_app_id)
+        )
+        mods_task = asyncio.create_task(
+            self._mod_repository.fetch_mods_for_game(steam_app_id)
+        )
+        steam_notes, (appearance_mods, functional_mods) = await asyncio.gather(
+            steam_notes_task,
+            mods_task,
+        )
+
         if steam_notes:
             raw_map: dict[str, str] = {}
             list_notes: list[PatchNoteDto] = []
@@ -131,9 +142,6 @@ class GameDetailInteractor(GameDetailUseCase):
                 len(fallback),
             )
 
-        appearance_mods, functional_mods = (
-            await self._mod_repository.fetch_mods_for_game(steam_app_id)
-        )
         detail = detail.model_copy(
             update={
                 "appearance_mods": appearance_mods,
