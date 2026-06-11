@@ -1,14 +1,20 @@
 from __future__ import annotations
 
-from titanic.app.dtos.passenger_isidor_couple_dto import IsidorIntroduction
-from titanic.app.ports.input.passenger_isidor_couple_use_case import IntroduceIsidorUseCase
+from tailor.apps.titanic.adapter.inbound.api.schemas.passenger_isidor_couple_schema import IsidorCoupleSchema
+from tailor.apps.titanic.app.dtos.passenger_isidor_couple_dto import IsidorCoupleQuery, IsidorCoupleResponse
+from tailor.apps.titanic.app.ports.input.passenger_isidor_couple_use_case import IsidorCoupleUseCase
+from tailor.apps.titanic.app.ports.output.passenger_isidor_couple_repository import IsidorCoupleRepository
 
 
-class IntroduceIsidorInteractor(IntroduceIsidorUseCase):
-    """자기소개 유스케이스 구현(영속성이 필요 없는 순수 로직)."""
+class IsidorCoupleInteractor(IsidorCoupleUseCase):
+    
+    def __init__(self, repository: IsidorCoupleRepository):
+        self.repository = repository
 
-    async def introduce(self, member_id: int, name: str) -> IsidorIntroduction:
-        return IsidorIntroduction(
-            id=member_id * 10000,
-            name=f"{name}가 유스케이스에 다녀옴",
-        )
+    async def introduce_myself(self, schema: IsidorCoupleSchema) -> IsidorCoupleResponse:
+        '''이시도어 커플의 자기소개 인터렉트'''
+
+        return await self.repository.introduce_myself(IsidorCoupleQuery(
+            id = schema.id,
+            name = schema.name
+        ))

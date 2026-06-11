@@ -1,9 +1,9 @@
 ﻿from fastapi import APIRouter, Depends
-from titanic.adapter.inbound.api.schemas.passenger_jack_trainer_schema import JackTrainerSchema
-from titanic.adapter.inbound.api.schemas.passenger_molly_scaler_schema import MollyScalerSchema
-from titanic.app.dtos.passenger_molly_scaler_dto import MollyScalerResponse
-from titanic.app.ports.input.passenger_molly_scaler_use_case import MollyScalerUseCase
-from titanic.dependencies.passenger_molly_scaler_provider import get_molly_scaler_use_case
+from tailor.apps.titanic.adapter.inbound.api.schemas.passenger_jack_trainer_schema import JackTrainerSchema
+from tailor.apps.titanic.adapter.inbound.api.schemas.passenger_molly_scaler_schema import MollyScalerSchema
+from tailor.apps.titanic.app.dtos.passenger_molly_scaler_dto import MollyScalerResponse
+from tailor.apps.titanic.app.ports.input.passenger_molly_scaler_use_case import MollyScalerUseCase
+from tailor.apps.titanic.dependencies.passenger_molly_scaler_provider import get_molly_scaler_use_case
 
 '''
 몰리 브라운 (Molly Brown)
@@ -17,7 +17,7 @@ from titanic.dependencies.passenger_molly_scaler_provider import get_molly_scale
 이후 구조선 카르파티아호에서도 생존자들을 헌신적으로 돌보며 역사에 남을 영웅적인 면모를 보여줍니다.
 '''
 
-molly_scaler_router = APIRouter(prefix="/titanic/molly", tags=["molly"])
+molly_scaler_router = APIRouter(prefix="/molly", tags=["molly"])
 
 
 @molly_scaler_router.get("/myself")
@@ -30,4 +30,3 @@ async def introduce_myself(
             name="몰리 브라운 (Molly Brown)"
         )
     )
-

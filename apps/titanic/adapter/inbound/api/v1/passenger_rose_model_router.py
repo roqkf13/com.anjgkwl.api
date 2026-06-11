@@ -1,19 +1,28 @@
-from fastapi import APIRouter, Depends
+﻿from fastapi import APIRouter, Depends, Query
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from titanic.adapter.inbound.api.schemas.passenger_rose_model_schema import IntroduceResponseSchema
-from titanic.app.ports.input.passenger_rose_model_use_case import IntroduceRoseUseCase
-from titanic.dependencies.passenger_rose_model_provider import get_introduce_rose_use_case
+from tailor.core.matrix.grid_oracle_database_manager import get_db
+from tailor.apps.titanic.adapter.inbound.api.schemas.passenger_rose_model_schema import RoseModelSchema
+from tailor.apps.titanic.app.dtos.passenger_rose_model_dto import RoseModelResponse
+from tailor.apps.titanic.app.ports.input.passenger_rose_model_use_case import RoseModelUseCase
+from tailor.apps.titanic.dependencies.passenger_rose_model_provider import get_rose_model_use_case
 
 '''
 로즈 드윗 부카터 (Rose DeWitt Bukater)
-상류층의 답답함에서 벗어나려는 의지, 영화의 핵심 매개체 '다이아몬드'의 주인공.
+상류층의 답답함에서 벗어나고자 하는 의지, 그리고
+영화의 핵심 매개체인 '다이아몬드'와 관련된 키워드입니다.
 '''
+
 rose_model_router = APIRouter(prefix="/rose", tags=["rose"])
 
 
-@rose_model_router.get("/myself", response_model=IntroduceResponseSchema)
+@rose_model_router.get("/myself")
 async def introduce_myself(
-    use_case: IntroduceRoseUseCase = Depends(get_introduce_rose_use_case),
-):
-    intro = await use_case.introduce(member_id=14, name="로즈 드윗 부카터 (Rose DeWitt Bukater)")
-    return IntroduceResponseSchema(id=intro.id, name=intro.name)
+    rose: RoseModelUseCase = Depends(get_rose_model_use_case)
+) -> RoseModelResponse:
+    return await rose.introduce_myself(
+        RoseModelSchema(
+            id=14,
+            name="로즈 드윗 부카터 (Rose DeWitt Bukater)"
+        )
+    )

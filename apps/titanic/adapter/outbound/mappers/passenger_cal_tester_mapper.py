@@ -1,5 +1,7 @@
-from core.matrix.gird_neo_theone_base import Base
+from __future__ import annotations
+
+# CalTesterOrm is abstract and entity is not yet defined.
 
 
 class CalTesterMapper:
-    __abstract__ = True
+    pass

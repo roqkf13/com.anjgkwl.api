@@ -1,51 +1,47 @@
 from __future__ import annotations
 
-from titanic.app.dtos.crew_james_director_dto import (
-    DirectorIntroduction,
-    ManifestRow,
-    UploadManifestResult,
-)
-from titanic.app.ports.input.crew_james_director_use_case import (
-    IntroduceDirectorUseCase,
-    UploadTitanicManifestUseCase,
-)
-from titanic.app.ports.output.crew_james_director_repository import TitanicManifestRepository
-from titanic.domain.entities.crew_james_director_entity import ManifestEntry
+from tailor.apps.titanic.adapter.inbound.api.schemas.crew_james_director_schema import JamesDirectorSchema, FileUploadSchema
+from titanic.app.ports.input.crew_james_director_use_case import JamesDirectorUseCase
+from titanic.app.ports.output.crew_james_director_repository import JamesDirectorRepository
+from titanic.app.dtos.crew_james_director_dto import BookingCommand, JamesDirectorQuery, JamesDirectorResponse, PassengerCommand
 
 
-class UploadTitanicManifestInteractor(UploadTitanicManifestUseCase):
-    """원천 행을 도메인 집계로 변환·저장하는 업로드 유스케이스 구현."""
+class JamesDirectorInteractor(JamesDirectorUseCase):
+    def __init__(self, repository: JamesDirectorRepository) -> None:
+        self.repository = repository
 
-    def __init__(self, repository: TitanicManifestRepository) -> None:
-        self._repository = repository
+    async def introduce_myself(self, schema: JamesDirectorSchema) -> JamesDirectorResponse:
+        '''제임스 감독의 자기소개 인터렉트'''
+        
+        return  await self.repository.introduce_myself(JamesDirectorQuery(
+            id = schema.id,
+            name = schema.name
+        ))
 
-    async def upload(self, rows: list[ManifestRow]) -> UploadManifestResult:
-        entries = [
-            ManifestEntry.from_raw(
-                passenger_id=row.passenger_id,
-                name=row.name,
-                gender=row.gender,
-                sib_sp=row.sib_sp,
-                parch=row.parch,
-                age=row.age,
-                survived=row.survived,
-                pclass=row.pclass,
-                ticket=row.ticket,
-                fare=row.fare,
-                cabin=row.cabin,
-                embarked=row.embarked,
+
+    async def upload_titanic_file(self, schema: list[FileUploadSchema]) -> dict:
+        person_commands = [
+            PassengerCommand(
+                passenger_id=record.passenger_id or "",
+                name=record.name or "",
+                gender=record.gender or "",
+                age=record.age or "",
+                sib_sp=record.sib_sp or "",
+                parch=record.parch or "",
+                survived=record.survived or "",
             )
-            for row in rows
+            for record in schema
         ]
-        saved = await self._repository.save_all(entries)
-        return UploadManifestResult(saved_count=saved, entries=entries)
+        booking_commands = [
+            BookingCommand(
+                pclass=record.pclass or "",
+                ticket=record.ticket or "",
+                fare=record.fare or "",
+                cabin=record.cabin or "",
+                embarked=record.embarked or "",
+            )
+            for record in schema
+        ]
 
-
-class IntroduceDirectorInteractor(IntroduceDirectorUseCase):
-    """감독 자기소개 유스케이스 구현(영속성 불필요한 순수 로직)."""
-
-    async def introduce(self, director_id: int, name: str) -> DirectorIntroduction:
-        return DirectorIntroduction(
-            id=director_id * 10000,
-            name=f"{name}가 유스케이스에 다녀옴",
-        )
+        saved = await self.repository.receive_uploaded_records(person_commands, booking_commands)
+        return {"saved": saved}

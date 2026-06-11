@@ -2,12 +2,15 @@ from __future__ import annotations
 
 from typing import Any
 
+import logging
+
+logger = logging.getLogger(__name__)
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from titanic.adapter.outbound.orm.passenger_jack_trainer_orm import JackTrainerOrm as PersonOrm
+from tailor.apps.titanic.app.dtos.passenger_rose_model_dto import RoseModelQuery, RoseModelResponse
 from titanic.adapter.outbound.orm.passenger_rose_model_orm import RoseModelOrm as BookingOrm
-from titanic.app.ports.output.passenger_rose_model_repository import RoseModelRepository
+from titanic.adapter.outbound.orm.passenger_jack_trainer_orm import JackTrainerOrm as PersonOrm
 
 
 def _row_to_dict(person: PersonOrm, booking: BookingOrm | None) -> dict[str, Any]:
@@ -28,14 +31,26 @@ def _row_to_dict(person: PersonOrm, booking: BookingOrm | None) -> dict[str, Any
     }
 
 
-class RoseModelPgRepository(RoseModelRepository):
+class RoseModelPgRepository:
     def __init__(self, session: AsyncSession) -> None:
-        self._session = session
+        self.session = session
+
+    async def introduce_myself(self, query: RoseModelQuery) -> RoseModelResponse:
+        
+        '''로즈 모델의 자기 소개 레포지토리 구현 메소드'''
+
+        logger.info(f"[RoseModelPgRepository] introduce_myself 진입 | request_data={query}")
+        
+        response: RoseModelResponse = RoseModelResponse(
+            id= query.id * 10000,
+            name= query.name + "가 레포지토리에 다녀옴"
+        )
+        return response
 
     async def get_all_records(self) -> list[dict[str, Any]]:
         """ML 학습에 사용할 전체 승객 데이터 조회"""
         rows = (
-            await self._session.execute(
+            await self.session.execute(
                 select(PersonOrm, BookingOrm)
                 .outerjoin(BookingOrm, BookingOrm.person_id == PersonOrm.id)
                 .order_by(PersonOrm.id)

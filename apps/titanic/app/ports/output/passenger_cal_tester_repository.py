@@ -2,12 +2,13 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from titanic.app.dtos.passenger_cal_tester_dto import CalIntroduction
+from tailor.apps.titanic.app.dtos.passenger_cal_tester_dto import CalTesterQuery, CalTesterResponse
 
 
 class CalTesterRepository(ABC):
-    """칼 캘던 하클리 자기소개 포트."""
-
+    
     @abstractmethod
-    async def introduce_myself(self, member_id: int, name: str) -> CalIntroduction:
-        ...
+    def introduce_myself(self, query: CalTesterQuery) -> CalTesterResponse:
+        '''칼 테스터의 자기 소개 레포지토리 추상 메소드'''
+        pass
+    

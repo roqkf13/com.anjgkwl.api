@@ -2,12 +2,13 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from titanic.app.dtos.crew_andrews_architect_dto import AndrewsIntroduction
+from tailor.apps.titanic.app.dtos.crew_andrews_architect_dto import AndrewsArchitectQuery, AndrewsArchitectResponse
 
 
 class AndrewsArchitectRepository(ABC):
-    """토마스 앤드류스 자기소개 포트."""
-
+    
     @abstractmethod
-    async def introduce_myself(self, member_id: int, name: str) -> AndrewsIntroduction:
-        ...
+    def introduce_myself(self, query: AndrewsArchitectQuery) -> AndrewsArchitectResponse:
+        '''앤드류 설계자의 자기 소개 레포지토리 추상 메소드'''
+        pass
+    

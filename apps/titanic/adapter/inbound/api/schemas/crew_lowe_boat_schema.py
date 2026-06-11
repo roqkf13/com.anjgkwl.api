@@ -1,9 +1,15 @@
-from __future__ import annotations
+from pydantic import BaseModel, Field
 
-from pydantic import BaseModel
-
-
-class IntroduceResponseSchema(BaseModel):
-    """GET /titanic/lowe/myself 응답."""
-    id: int
-    name: str
+class LoweBoatSchema(BaseModel):
+    
+    id: int = Field(0, description="Officer ID")
+    name: str = Field("해롤드 로우", description="Officer's name")
+    
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "id": 4,
+                "name": "Harold Lowe",
+            }
+        }
+    }

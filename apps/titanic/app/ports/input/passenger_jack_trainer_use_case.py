@@ -1,13 +1,19 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import Any
 
-from titanic.app.dtos.passenger_jack_trainer_dto import JackIntroduction
 
-
-class IntroduceJackUseCase(ABC):
-    """잭 도슨 (Jack Dawson) 자기소개 유스케이스."""
+class JackTrainerUseCase(ABC):
 
     @abstractmethod
-    async def introduce(self, member_id: int, name: str) -> JackIntroduction:
-        ...
+    async def get_model_info(self) -> dict[str, Any]:
+        pass
+
+    @abstractmethod
+    async def analyze_jack_dawson(self) -> dict[str, Any]:
+        pass
+
+    @abstractmethod
+    async def predict_survival(self, passenger_data: dict[str, Any]) -> dict[str, Any]:
+        pass

@@ -1,25 +1,20 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import Any
 
-from titanic.app.dtos.crew_james_director_dto import (
-    DirectorIntroduction,
-    ManifestRow,
-    UploadManifestResult,
-)
+from tailor.apps.titanic.adapter.inbound.api.schemas.crew_james_director_schema import JamesDirectorSchema, FileUploadSchema
+from tailor.apps.titanic.app.dtos.crew_james_director_dto import JamesDirectorResponse
 
 
-class UploadTitanicManifestUseCase(ABC):
-    """타이타닉 승객 명단 CSV 업로드 유스케이스."""
+class JamesDirectorUseCase(ABC):
 
     @abstractmethod
-    async def upload(self, rows: list[ManifestRow]) -> UploadManifestResult:
-        ...
-
-
-class IntroduceDirectorUseCase(ABC):
-    """제임스 카메론 감독 자기소개 유스케이스."""
+    async def introduce_myself(self, schema: JamesDirectorSchema) -> JamesDirectorResponse:
+        '''제임스 감독의 자기소개 메소드'''
+        pass
 
     @abstractmethod
-    async def introduce(self, director_id: int, name: str) -> DirectorIntroduction:
-        ...
+    async def upload_titanic_file(self, schema: list[JamesDirectorSchema]) :
+        """제임스 감독의 파일업로드 메소드 """
+        pass

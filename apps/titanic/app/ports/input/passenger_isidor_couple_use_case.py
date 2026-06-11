@@ -1,13 +1,15 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import Any
 
-from titanic.app.dtos.passenger_isidor_couple_dto import IsidorIntroduction
+from tailor.apps.titanic.adapter.inbound.api.schemas.passenger_isidor_couple_schema import IsidorCoupleSchema
+from tailor.apps.titanic.app.dtos.passenger_isidor_couple_dto import IsidorCoupleResponse
 
 
-class IntroduceIsidorUseCase(ABC):
-    """이시도르 & 이다 스트라우스 부부 (Isidor & Ida Straus) 자기소개 유스케이스."""
+class IsidorCoupleUseCase(ABC):
 
     @abstractmethod
-    async def introduce(self, member_id: int, name: str) -> IsidorIntroduction:
-        ...
+    def introduce_myself(self, schema: IsidorCoupleSchema) -> IsidorCoupleResponse:
+        '''이시도어 커플의 자기소개 메소드'''
+        pass

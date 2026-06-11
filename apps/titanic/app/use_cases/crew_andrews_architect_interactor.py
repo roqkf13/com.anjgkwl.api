@@ -1,14 +1,20 @@
 from __future__ import annotations
 
-from titanic.app.dtos.crew_andrews_architect_dto import AndrewsIntroduction
-from titanic.app.ports.input.crew_andrews_architect_use_case import IntroduceAndrewsUseCase
+from tailor.apps.titanic.adapter.inbound.api.schemas.crew_andrews_architect_schema import AndrewsArchitectSchema
+from tailor.apps.titanic.app.dtos.crew_andrews_architect_dto import AndrewsArchitectQuery, AndrewsArchitectResponse
+from tailor.apps.titanic.app.ports.input.crew_andrews_architect_use_case import AndrewsArchitectUseCase
+from tailor.apps.titanic.app.ports.output.crew_andrews_architect_repository import AndrewsArchitectRepository
 
 
-class IntroduceAndrewsInteractor(IntroduceAndrewsUseCase):
-    """자기소개 유스케이스 구현(영속성이 필요 없는 순수 로직)."""
+class AndrewsArchitectInteractor(AndrewsArchitectUseCase):
+    
+    def __init__(self, repository: AndrewsArchitectRepository):
+        self.repository = repository
 
-    async def introduce(self, member_id: int, name: str) -> AndrewsIntroduction:
-        return AndrewsIntroduction(
-            id=member_id * 10000,
-            name=f"{name}가 유스케이스에 다녀옴",
-        )
+    async def introduce_myself(self, schema: AndrewsArchitectSchema) -> AndrewsArchitectResponse:
+        '''앤드류 설계자의 자기소개 인터렉트'''
+
+        return await self.repository.introduce_myself(AndrewsArchitectQuery(
+            id = schema.id,
+            name = schema.name
+        ))

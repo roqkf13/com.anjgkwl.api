@@ -1,13 +1,15 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import Any
 
-from titanic.app.dtos.crew_andrews_architect_dto import AndrewsIntroduction
+from tailor.apps.titanic.adapter.inbound.api.schemas.crew_andrews_architect_schema import AndrewsArchitectSchema
+from tailor.apps.titanic.app.dtos.crew_andrews_architect_dto import AndrewsArchitectResponse
 
 
-class IntroduceAndrewsUseCase(ABC):
-    """토마스 앤드류스 (Thomas Andrews) 자기소개 유스케이스."""
+class AndrewsArchitectUseCase(ABC):
 
     @abstractmethod
-    async def introduce(self, member_id: int, name: str) -> AndrewsIntroduction:
-        ...
+    async def introduce_myself(self, schema: AndrewsArchitectSchema) -> AndrewsArchitectResponse:
+        '''앤드류 아키텍트의 자기소개 메소드'''
+        pass

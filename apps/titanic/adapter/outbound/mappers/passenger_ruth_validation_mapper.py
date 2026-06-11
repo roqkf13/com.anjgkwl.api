@@ -1,5 +1,7 @@
-from core.matrix.gird_neo_theone_base import Base
+from __future__ import annotations
+
+# RuthValidationOrm is abstract and entity is not yet defined.
 
 
 class RuthValidationMapper:
-    __abstract__ = True
+    pass

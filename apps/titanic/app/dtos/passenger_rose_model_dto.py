@@ -1,10 +1,25 @@
-from __future__ import annotations
-
 from dataclasses import dataclass
 
-
-@dataclass(frozen=True)
-class RoseIntroduction:
-    """로즈 드윗 부카터 (Rose DeWitt Bukater) 자기소개 유스케이스 출력."""
-    id: int
+@dataclass(frozen=True) # 생성 후 수정 불가하도록 설정
+class RoseModelQuery:
+    
+    id: int   # 직관적인 타입 변경
     name: str
+
+
+@dataclass(frozen=True) # 생성 후 수정 불가하도록 설정
+class RoseModelResponse:
+    
+    id: int   # 직관적인 타입 변경
+    name: str
+
+
+@dataclass
+class BookingCommand:
+    
+    pclass: str
+    ticket: str
+    fare: str
+    cabin: str
+    embarked: str
+    

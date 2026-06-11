@@ -1,14 +1,33 @@
-from __future__ import annotations
+from typing import Any
 
-from titanic.app.dtos.crew_walter_roaster_dto import WalterIntroduction
-from titanic.app.ports.input.crew_walter_roaster_use_case import IntroduceWalterUseCase
+from tailor.apps.titanic.adapter.inbound.api.schemas.crew_walter_roaster_schema import WalterRoasterSchema
+from titanic.app.dtos.crew_walter_roaster_dto import WalterRoasterQuery, WalterRoasterResponse
+from titanic.app.ports.input.crew_walter_roaster_use_case import WalterRoasterUseCase
+from titanic.app.ports.output.crew_walter_roaster_repository import WalterRoasterRepository
 
 
-class IntroduceWalterInteractor(IntroduceWalterUseCase):
-    """자기소개 유스케이스 구현(영속성이 필요 없는 순수 로직)."""
+class WalterQuery:
+    def __init__(self, repository) -> None:
+        self.repository = repository
 
-    async def introduce(self, member_id: int, name: str) -> WalterIntroduction:
-        return WalterIntroduction(
-            id=member_id * 10000,
-            name=f"{name}가 유스케이스에 다녀옴",
-        )
+    async def list_paginated(self, page: int, page_size: int) -> dict[str, Any]:
+        total, items = await self.repository.list_paginated(page, page_size)
+        return {
+            "total": total,
+            "page": page,
+            "page_size": page_size,
+            "items": items,
+        }
+
+
+class WalterRoasterInteractor(WalterRoasterUseCase):
+
+    def __init__(self, repository: WalterRoasterRepository) -> None:
+        self.repository = repository
+
+    async def introduce_myself(self, schema: WalterRoasterSchema) -> WalterRoasterResponse:
+        return await self.repository.introduce_myself(WalterRoasterQuery(
+            id=schema.id,
+            name=schema.name,
+            memo=schema.memo,
+        ))

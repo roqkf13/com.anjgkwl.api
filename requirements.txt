@@ -7,9 +7,11 @@ psycopg[binary]
 python-dotenv
 pandas
 scikit-learn
-google-generativeai
+google-genai
 passlib[bcrypt]
 bcrypt>=4.0.1,<5
 email-validator
 alembic
 sqlmodel
+kiwipiepy
+ollama

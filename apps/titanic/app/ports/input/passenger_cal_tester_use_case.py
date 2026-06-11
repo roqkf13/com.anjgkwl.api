@@ -1,13 +1,15 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import Any
 
-from titanic.app.dtos.passenger_cal_tester_dto import CalIntroduction
+from tailor.apps.titanic.adapter.inbound.api.schemas.passenger_cal_tester_schema import CalTesterSchema
+from tailor.apps.titanic.app.dtos.passenger_cal_tester_dto import CalTesterResponse
 
 
-class IntroduceCalUseCase(ABC):
-    """칼 캘던 하클리 (Caledon Hockley) 자기소개 유스케이스."""
+class CalTesterUseCase(ABC):
 
     @abstractmethod
-    async def introduce(self, member_id: int, name: str) -> CalIntroduction:
-        ...
+    def introduce_myself(self, schema: CalTesterSchema) -> CalTesterResponse:
+        '''칼 테스터의 자기소개 메소드'''
+        pass

@@ -1,9 +1,28 @@
-from __future__ import annotations
+from pydantic import BaseModel, Field
 
-from pydantic import BaseModel
+class ChatSchema(BaseModel):
 
+    message: str = Field(..., description="사용자가 채팅창에 입력한 자연어")
 
-class IntroduceResponseSchema(BaseModel):
-    """GET /titanic/smith/myself 응답."""
-    id: int
-    name: str
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "message": "타이타닉 생존율을 분석해줘",
+            }
+        }
+    }
+
+class SmithCaptainSchema(BaseModel):
+
+    id: int = Field(0, description="Captain ID")
+    name: str = Field("에드워드 스미스", description="Captain's name")
+    # 타이타닉 선장. 백만장자들의 선장이라 불렸으며 고조되는 위기 속에 배와 운명을 함께함
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "id": 5,
+                "name": "Edward Smith",
+            }
+        }
+    }

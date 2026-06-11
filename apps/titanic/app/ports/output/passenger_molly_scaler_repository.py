@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 
-from titanic.app.dtos.passenger_molly_scaler_dto import MollyScalerQuery, MollyScalerResponse
+from tailor.apps.titanic.app.dtos.passenger_molly_scaler_dto import MollyScalerQuery, MollyScalerResponse
 
 
 class MollyScalerRepository(ABC):

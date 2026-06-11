@@ -1,13 +1,12 @@
-from __future__ import annotations
+from abc import ABC , abstractmethod
 
-from abc import ABC, abstractmethod
-
-from titanic.app.dtos.crew_walter_roaster_dto import WalterIntroduction
-
+from titanic.app.dtos.crew_walter_roaster_dto import WalterRoasterQuery, WalterRoasterResponse
 
 class WalterRoasterRepository(ABC):
-    """Walter Nichols 자기소개 포트."""
+    '''월터의 승객 명단 관리 저장소'''
 
     @abstractmethod
-    async def introduce_myself(self, member_id: int, name: str) -> WalterIntroduction:
+    def introduce_myself(self, query: WalterRoasterQuery) -> WalterRoasterResponse:
+        '''월터의 자기 소개 레포지토리 추상 메소드'''
         pass
+    

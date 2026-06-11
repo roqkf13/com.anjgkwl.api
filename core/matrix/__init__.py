@@ -14,3 +14,5 @@ def _load_dotted(alias: str, filename: str) -> None:
 
 _load_dotted("core.matrix.keymaker", "vault_keymaker.secret_manager.py")
 _load_dotted("core.matrix.grid_oracle_database", "grid_oracle_database.manager.py")
+_load_dotted("core.matrix.kiwi", "kiwi_oracle_morpheme_analyzer.py")
+_load_dotted("core.matrix.ollama", "ollama_neo_local_model.py")

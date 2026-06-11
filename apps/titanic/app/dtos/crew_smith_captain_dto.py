@@ -1,10 +1,15 @@
-from __future__ import annotations
-
 from dataclasses import dataclass
+from datetime import datetime
 
-
-@dataclass(frozen=True)
-class SmithIntroduction:
-    """스미스 선장 (Captain Edward John Smith) 자기소개 유스케이스 출력."""
-    id: int
+@dataclass(frozen=True) # 생성 후 수정 불가하도록 설정
+class SmithCaptainQuery:
+    
+    id: int   # 직관적인 타입 변경
     name: str
+
+@dataclass(frozen=True) # 생성 후 수정 불가하도록 설정
+class SmithCaptainResponse:
+    
+    id: int   # 직관적인 타입 변경
+    name: str
+ 

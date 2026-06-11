@@ -1,10 +1,14 @@
-from __future__ import annotations
-
 from dataclasses import dataclass
 
+@dataclass(frozen=True) # 생성 후 수정 불가하도록 설정
+class IsidorCoupleQuery:
+    
+    id: int   # 직관적인 타입 변경
+    name: str
 
-@dataclass(frozen=True)
-class IsidorIntroduction:
-    """이시도르 & 이다 스트라우스 부부 (Isidor & Ida Straus) 자기소개 유스케이스 출력."""
-    id: int
+
+@dataclass(frozen=True) # 생성 후 수정 불가하도록 설정
+class IsidorCoupleResponse:
+    
+    id: int   # 직관적인 타입 변경
     name: str

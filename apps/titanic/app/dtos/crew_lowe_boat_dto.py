@@ -1,10 +1,14 @@
-from __future__ import annotations
-
 from dataclasses import dataclass
 
 
-@dataclass(frozen=True)
-class LoweIntroduction:
-    """해롤드 로우 (Harold Lowe) 자기소개 유스케이스 출력."""
-    id: int
+@dataclass(frozen=True) # 생성 후 수정 불가하도록 설정
+class LoweBoatQuery:
+    
+    id: int   # 직관적인 타입 변경
+    name: str
+
+@dataclass(frozen=True) # 생성 후 수정 불가하도록 설정
+class LoweBoatResponse:
+    
+    id: int   # 직관적인 타입 변경
     name: str

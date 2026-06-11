@@ -1,10 +1,14 @@
-from __future__ import annotations
-
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
-@dataclass(frozen=True)
-class AndrewsIntroduction:
-    """토마스 앤드류스 (Thomas Andrews) 자기소개 유스케이스 출력."""
-    id: int
+@dataclass(frozen=True) # 생성 후 수정 불가하도록 설정
+class AndrewsArchitectQuery:
+    
+    id: int   # 직관적인 타입 변경
+    name: str
+
+@dataclass(frozen=True) # 생성 후 수정 불가하도록 설정
+class AndrewsArchitectResponse:
+    
+    id: int   # 직관적인 타입 변경
     name: str

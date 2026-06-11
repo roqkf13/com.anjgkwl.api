@@ -22,6 +22,12 @@ class Settings(BaseModel):
     steam_api_key: str = Field(
         default_factory=lambda: os.getenv("STEAM_API_KEY", "").strip()
     )
+    ollama_base_url: str = Field(
+        default_factory=lambda: os.getenv("OLLAMA_BASE_URL", "http://localhost:11434").strip()
+    )
+    ollama_model: str = Field(
+        default_factory=lambda: os.getenv("OLLAMA_MODEL", "llama3.2").strip()
+    )
 
 
 @lru_cache

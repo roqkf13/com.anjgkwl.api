@@ -1,13 +1,15 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import Any
 
-from titanic.app.dtos.passenger_ruth_validation_dto import RuthIntroduction
+from tailor.apps.titanic.app.dtos.passenger_ruth_validation_dto import RuthValidationQuery, RuthValidationResponse
 
 
 class RuthValidationRepository(ABC):
-    """루스 드윗 부카터 자기소개 포트."""
 
     @abstractmethod
-    async def introduce_myself(self, member_id: int, name: str) -> RuthIntroduction:
-        ...
+    def introduce_myself(self, query: RuthValidationQuery) -> RuthValidationResponse:
+        '''앤드류 설계자의 자기 소개 레포지토리 추상 메소드'''
+        pass
+    

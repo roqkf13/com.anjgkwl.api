@@ -3,7 +3,7 @@
 from functools import lru_cache
 from pathlib import Path
 
-import google.generativeai as genai
+import google.genai as genai
 from dotenv import load_dotenv
 
 _BACKEND_ROOT = Path(__file__).resolve().parents[3]
@@ -32,21 +32,16 @@ def is_gemini_configured() -> bool:
     return bool(get_gemini_api_key())
 
 
-def configure_gemini() -> None:
-    """google-generativeai 전역 API 키 설정."""
+@lru_cache
+def get_gemini_client() -> genai.Client:
+    """google-genai Client 인스턴스를 반환."""
     api_key = get_gemini_api_key()
     if not api_key:
         raise RuntimeError(
             "GEMINI_API_KEY 가 설정되지 않았습니다. "
             f"{_ENV_PATH} 파일을 확인하세요."
         )
-    genai.configure(api_key=api_key)
-
-
-def get_generative_model():
-    """설정된 API 키로 GenerativeModel 인스턴스를 반환."""
-    configure_gemini()
-    return genai.GenerativeModel(get_gemini_model_name())
+    return genai.Client(api_key=api_key)
 
 
 def to_gemini_history(messages: list[dict]) -> list[dict]:
@@ -71,7 +66,8 @@ def generate_reply(*, message: str | None = None, history: list[dict] | None = N
     단일 message 또는 history + 마지막 user 메시지로 Gemini 응답 텍스트를 생성.
     history 가 있으면 마지막 항목은 user 여야 한다.
     """
-    model = get_generative_model()
+    client = get_gemini_client()
+    model_name = get_gemini_model_name()
 
     if history:
         prior = history[:-1]
@@ -82,12 +78,12 @@ def generate_reply(*, message: str | None = None, history: list[dict] | None = N
         if not last_text:
             raise ValueError("마지막 사용자 메시지가 비어 있습니다.")
 
-        chat = model.start_chat(history=to_gemini_history(prior))
+        chat = client.chats.create(model=model_name, history=to_gemini_history(prior))
         response = chat.send_message(last_text)
     else:
         if not message or not message.strip():
             raise ValueError("message 가 필요합니다.")
-        response = model.generate_content(message.strip())
+        response = client.models.generate_content(model=model_name, contents=message.strip())
 
     try:
         text = (response.text or "").strip()
@@ -101,11 +97,10 @@ def generate_reply(*, message: str | None = None, history: list[dict] | None = N
 
 
 __all__ = [
-    "configure_gemini",
     "generate_reply",
     "get_gemini_api_key",
+    "get_gemini_client",
     "get_gemini_model_name",
-    "get_generative_model",
     "is_gemini_configured",
     "to_gemini_history",
 ]

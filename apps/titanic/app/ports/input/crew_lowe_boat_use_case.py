@@ -1,13 +1,14 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import Any
 
-from titanic.app.dtos.crew_lowe_boat_dto import LoweIntroduction
+from tailor.apps.titanic.adapter.inbound.api.schemas.crew_lowe_boat_schema import LoweBoatSchema
+from tailor.apps.titanic.app.dtos.crew_lowe_boat_dto import LoweBoatResponse
 
-
-class IntroduceLoweUseCase(ABC):
-    """해롤드 로우 (Harold Lowe) 자기소개 유스케이스."""
+class LoweBoatUseCase(ABC):
 
     @abstractmethod
-    async def introduce(self, member_id: int, name: str) -> LoweIntroduction:
-        ...
+    def introduce_myself(self, schema: LoweBoatSchema) -> LoweBoatResponse:
+        '''로우 보우트의 자기소개 메소드'''
+        pass

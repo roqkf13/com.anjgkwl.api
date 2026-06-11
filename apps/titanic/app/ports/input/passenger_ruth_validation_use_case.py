@@ -1,13 +1,11 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import Any
 
-from titanic.app.dtos.passenger_ruth_validation_dto import RuthIntroduction
 
-
-class IntroduceRuthUseCase(ABC):
-    """루스 드윗 부카터 (Ruth DeWitt Bukater) 자기소개 유스케이스."""
+class RuthValidationUseCase(ABC):
 
     @abstractmethod
-    async def introduce(self, member_id: int, name: str) -> RuthIntroduction:
-        ...
+    async def list_by_pclass(self, pclass: int, page: int, page_size: int) -> dict[str, Any]:
+        pass
