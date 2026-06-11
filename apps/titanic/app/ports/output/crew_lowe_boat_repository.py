@@ -1,8 +1,8 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from tailor.apps.titanic.app.dtos.crew_lowe_boat_dto import LoweBoatQuery, LoweBoatResponse
+from titanic.app.dtos.crew_lowe_boat_dto import LoweBoatQuery, LoweBoatResponse
 
 
 class LoweBoatRepository(ABC):

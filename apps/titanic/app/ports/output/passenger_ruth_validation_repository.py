@@ -1,9 +1,9 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from typing import Any
 
-from tailor.apps.titanic.app.dtos.passenger_ruth_validation_dto import RuthValidationQuery, RuthValidationResponse
+from titanic.app.dtos.passenger_ruth_validation_dto import RuthValidationQuery, RuthValidationResponse
 
 
 class RuthValidationRepository(ABC):

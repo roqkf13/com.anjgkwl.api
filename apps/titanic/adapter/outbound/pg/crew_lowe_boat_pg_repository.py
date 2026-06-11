@@ -1,12 +1,12 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import logging
 
 logger = logging.getLogger(__name__)
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from tailor.apps.titanic.app.dtos.crew_lowe_boat_dto import LoweBoatQuery, LoweBoatResponse
-from tailor.apps.titanic.app.ports.output.crew_lowe_boat_repository import LoweBoatRepository
+from titanic.app.dtos.crew_lowe_boat_dto import LoweBoatQuery, LoweBoatResponse
+from titanic.app.ports.output.crew_lowe_boat_repository import LoweBoatRepository
 
 
 class LoweBoatPgRepository(LoweBoatRepository):

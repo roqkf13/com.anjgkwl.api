@@ -1,6 +1,6 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
-from tailor.apps.titanic.adapter.inbound.api.schemas.crew_james_director_schema import JamesDirectorSchema, FileUploadSchema
+from titanic.adapter.inbound.api.schemas.crew_james_director_schema import JamesDirectorSchema, FileUploadSchema
 from titanic.app.ports.input.crew_james_director_use_case import JamesDirectorUseCase
 from titanic.app.ports.output.crew_james_director_repository import JamesDirectorRepository
 from titanic.app.dtos.crew_james_director_dto import BookingCommand, JamesDirectorQuery, JamesDirectorResponse, PassengerCommand

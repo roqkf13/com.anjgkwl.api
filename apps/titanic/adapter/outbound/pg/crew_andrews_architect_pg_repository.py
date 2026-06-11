@@ -1,10 +1,10 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 from multiprocessing.util import get_logger
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from tailor.apps.titanic.app.dtos.crew_andrews_architect_dto import AndrewsArchitectQuery, AndrewsArchitectResponse
-from tailor.apps.titanic.app.ports.output.crew_andrews_architect_repository import AndrewsArchitectRepository
+from titanic.app.dtos.crew_andrews_architect_dto import AndrewsArchitectQuery, AndrewsArchitectResponse
+from titanic.app.ports.output.crew_andrews_architect_repository import AndrewsArchitectRepository
 
 logger = get_logger(__name__)
 

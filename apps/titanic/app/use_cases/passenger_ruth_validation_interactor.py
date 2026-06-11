@@ -1,9 +1,9 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
-from tailor.apps.titanic.adapter.inbound.api.schemas.passenger_ruth_validation_schema import RuthValidationSchema
-from tailor.apps.titanic.app.dtos.passenger_ruth_validation_dto import RuthValidationQuery, RuthValidationResponse
-from tailor.apps.titanic.app.ports.input.passenger_ruth_validation_use_case import RuthValidationUseCase
-from tailor.apps.titanic.app.ports.output.passenger_ruth_validation_repository import RuthValidationRepository
+from titanic.adapter.inbound.api.schemas.passenger_ruth_validation_schema import RuthValidationSchema
+from titanic.app.dtos.passenger_ruth_validation_dto import RuthValidationQuery, RuthValidationResponse
+from titanic.app.ports.input.passenger_ruth_validation_use_case import RuthValidationUseCase
+from titanic.app.ports.output.passenger_ruth_validation_repository import RuthValidationRepository
 
 
 class RuthValidationInteractor(RuthValidationUseCase):

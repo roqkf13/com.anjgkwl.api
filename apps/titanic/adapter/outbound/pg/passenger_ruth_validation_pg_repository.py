@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from typing import Any
 
@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from tailor.apps.titanic.app.dtos.passenger_ruth_validation_dto import RuthValidationQuery, RuthValidationResponse
+from titanic.app.dtos.passenger_ruth_validation_dto import RuthValidationQuery, RuthValidationResponse
 from titanic.adapter.outbound.orm.passenger_rose_model_orm import RoseModelOrm as BookingOrm
 from titanic.adapter.outbound.orm.passenger_jack_trainer_orm import JackTrainerOrm as PersonOrm
 

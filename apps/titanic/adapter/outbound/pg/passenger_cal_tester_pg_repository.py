@@ -1,11 +1,11 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import logging
 
 logger = logging.getLogger(__name__)
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from tailor.apps.titanic.app.dtos.passenger_cal_tester_dto import CalTesterQuery, CalTesterResponse
+from titanic.app.dtos.passenger_cal_tester_dto import CalTesterQuery, CalTesterResponse
 
 
 class CalTesterPgRepository:
