@@ -15,7 +15,7 @@ from titanic.adapter.outbound.orm.passenger_jack_trainer_orm import JackTrainerO
 
 def _row_to_dict(person: PersonOrm, booking: BookingOrm | None) -> dict[str, Any]:
     return {
-        "id": person.id,
+        "id": person.passenger_id,
         "passenger": person.passenger_id,
         "survived": person.survived,
         "pclass": booking.pclass if booking else None,
@@ -52,8 +52,8 @@ class RoseModelPgRepository:
         rows = (
             await self.session.execute(
                 select(PersonOrm, BookingOrm)
-                .outerjoin(BookingOrm, BookingOrm.person_id == PersonOrm.id)
-                .order_by(PersonOrm.id)
+                .outerjoin(BookingOrm, BookingOrm.passenger_id == PersonOrm.passenger_id)
+                .order_by(PersonOrm.passenger_id)
             )
         ).all()
         return [_row_to_dict(person, booking) for person, booking in rows]

@@ -3,7 +3,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-from core.matrix.keymaker import generate_reply, get_gemini_model_name, is_gemini_configured
+from core.matrix.vault_keymaker_secret_manager import generate_reply, get_gemini_model_name, is_gemini_configured
 
 router = APIRouter(tags=["chat"])
 

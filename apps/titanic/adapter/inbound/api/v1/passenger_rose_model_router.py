@@ -1,7 +1,4 @@
 ﻿from fastapi import APIRouter, Depends, Query
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from abiswallow.core.matrix.grid_oracle_database_manager import get_db
 from titanic.adapter.inbound.api.schemas.passenger_rose_model_schema import RoseModelSchema
 from titanic.app.dtos.passenger_rose_model_dto import RoseModelResponse
 from titanic.app.ports.input.passenger_rose_model_use_case import RoseModelUseCase

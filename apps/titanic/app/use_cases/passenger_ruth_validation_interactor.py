@@ -18,3 +18,7 @@ class RuthValidationInteractor(RuthValidationUseCase):
             id = schema.id,
             name = schema.name
         ))
+
+    async def list_by_pclass(self, pclass: int, page: int, page_size: int) -> dict:
+        total, items = await self.repository.list_by_pclass(pclass, page, page_size)
+        return {"total": total, "page": page, "page_size": page_size, "items": items}

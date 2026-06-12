@@ -79,7 +79,7 @@ class GeminiPatchNoteTranslator(PatchNoteTranslator):
         if cached and is_korean_translation(cached):
             return cached
 
-        from core.matrix.keymaker import is_gemini_configured
+        from core.matrix.vault_keymaker_secret_manager import is_gemini_configured
 
         if not is_gemini_configured():
             return note.model_copy(
@@ -124,7 +124,7 @@ class GeminiPatchNoteTranslator(PatchNoteTranslator):
         raise last or RuntimeError("translate failed")
 
     def _translate_one(self, note: PatchNoteDto, body_en: str) -> PatchNoteDto:
-        from core.matrix.keymaker import generate_reply
+        from core.matrix.vault_keymaker_secret_manager import generate_reply
 
         if note.content_blocks:
             return self._translate_blocks(note)
@@ -153,7 +153,7 @@ class GeminiPatchNoteTranslator(PatchNoteTranslator):
         )
 
     def _translate_blocks(self, note: PatchNoteDto) -> PatchNoteDto:
-        from core.matrix.keymaker import generate_reply
+        from core.matrix.vault_keymaker_secret_manager import generate_reply
 
         blocks_payload = [
             {"type": b.type, "text": b.text or "", "url": b.url or ""}

@@ -8,8 +8,9 @@ from titanic.adapter.inbound.api.v1.crew_smith_captain_router import smith_capta
 from titanic.adapter.inbound.api.v1.crew_walter_roaster_router import walter_roaster_router
 from titanic.adapter.inbound.api.v1.passenger_cal_tester_router import cal_test_router
 from titanic.adapter.inbound.api.v1.passenger_isidor_couple_router import isidor_couple_router
-from titanic.adapter.inbound.api.v1.passenger_jack_trainer_router import jack_train_router
+from titanic.adapter.inbound.api.v1.passenger_jack_trainer_router import jack_trainer_router
 from titanic.adapter.inbound.api.v1.passenger_rose_model_router import rose_model_router
+from titanic.adapter.inbound.api.v1.passenger_molly_scaler_router import molly_scaler_router
 from titanic.adapter.inbound.api.v1.passenger_ruth_validation_router import ruth_validation_router
 
 titanic_router = APIRouter(prefix="/titanic", tags=["titanic"])
@@ -18,9 +19,10 @@ titanic_router.include_router(walter_roaster_router)
 titanic_router.include_router(rose_model_router)
 titanic_router.include_router(ruth_validation_router)
 titanic_router.include_router(smith_captain_router)
-titanic_router.include_router(jack_train_router)
+titanic_router.include_router(jack_trainer_router)
 titanic_router.include_router(cal_test_router)
 titanic_router.include_router(andrews_architect_router)
 titanic_router.include_router(hartley_violin_router)
 titanic_router.include_router(isidor_couple_router)
 titanic_router.include_router(lowe_boat_router)
+titanic_router.include_router(molly_scaler_router)

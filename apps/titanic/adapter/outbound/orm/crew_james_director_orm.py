@@ -1,4 +1,4 @@
-from core.matrix.grid_neo_theone_base import Base 
+from core.matrix.gird_neo_theone_base import Base
 
 class JamesDirectorOrm(Base):
     

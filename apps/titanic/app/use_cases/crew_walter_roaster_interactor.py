@@ -29,5 +29,4 @@ class WalterRoasterInteractor(WalterRoasterUseCase):
         return await self.repository.introduce_myself(WalterRoasterQuery(
             id=schema.id,
             name=schema.name,
-            memo=schema.memo,
         ))

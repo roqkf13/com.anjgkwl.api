@@ -3,7 +3,7 @@ from __future__ import annotations
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from core.matrix.grid_oracle_database import get_db as get_sqlmodel_session
+from core.matrix.grid_oracle_database_manager import get_db as get_sqlmodel_session
 from friday13th.adapter.inbound.api.schemas.jason_login_request import (
     LoginRequest,
     LoginResponse,

@@ -1,14 +1,13 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from titanic.app.dtos.crew_andrews_architect_dto import AndrewsArchitectQuery, AndrewsArchitectResponse
+from titanic.app.dtos.passenger_isidor_couple_dto import IsidorCoupleQuery, IsidorCoupleResponse
 
 
 class IsidorCoupleRepository(ABC):
-    
+
     @abstractmethod
-    def introduce_myself(self, query: AndrewsArchitectQuery) -> AndrewsArchitectResponse:
-        '''앤드류 설계자의 자기 소개 레포지토리 추상 메소드'''
+    def introduce_myself(self, query: IsidorCoupleQuery) -> IsidorCoupleResponse:
+        '''이시도어 커플의 자기 소개 레포지토리 추상 메소드'''
         pass
-    

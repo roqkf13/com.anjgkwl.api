@@ -19,7 +19,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from adapters.db_health_adapter import DatabaseHealthAdapter, get_db_health_adapter
 from core.config import get_settings
 from core.matrix.chat_router import router as chat_router
-from core.matrix.grid_oracle_database import (
+from core.matrix.grid_oracle_database_manager import (
     configure_engine,
     create_titanic_tables,
     dispose_engine,

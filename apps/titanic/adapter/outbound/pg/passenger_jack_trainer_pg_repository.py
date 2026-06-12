@@ -34,8 +34,8 @@ class JackTrainerPgRepository:
         rows = (
             await self.session.execute(
                 select(PersonOrm, BookingOrm)
-                .outerjoin(BookingOrm, BookingOrm.person_id == PersonOrm.id)
-                .order_by(PersonOrm.id)
+                .outerjoin(BookingOrm, BookingOrm.passenger_id == PersonOrm.passenger_id)
+                .order_by(PersonOrm.passenger_id)
             )
         ).all()
         return [

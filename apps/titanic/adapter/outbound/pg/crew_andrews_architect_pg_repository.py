@@ -1,12 +1,12 @@
 ﻿from __future__ import annotations
-from multiprocessing.util import get_logger
+import logging
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from titanic.app.dtos.crew_andrews_architect_dto import AndrewsArchitectQuery, AndrewsArchitectResponse
 from titanic.app.ports.output.crew_andrews_architect_repository import AndrewsArchitectRepository
 
-logger = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 class AndrewsArchitectPgRepository(AndrewsArchitectRepository):
 
