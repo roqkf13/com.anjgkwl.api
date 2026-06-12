@@ -1,6 +1,5 @@
 ﻿from __future__ import annotations
 
-from titanic.adapter.inbound.api.schemas.crew_james_director_schema import JamesDirectorSchema, FileUploadSchema
 from titanic.app.ports.input.crew_james_director_use_case import JamesDirectorUseCase
 from titanic.app.ports.output.crew_james_director_repository import JamesDirectorRepository
 from titanic.app.dtos.crew_james_director_dto import BookingCommand, JamesDirectorQuery, JamesDirectorResponse, PassengerCommand
@@ -10,7 +9,7 @@ class JamesDirectorInteractor(JamesDirectorUseCase):
     def __init__(self, repository: JamesDirectorRepository) -> None:
         self.repository = repository
 
-    async def introduce_myself(self, schema: JamesDirectorSchema) -> JamesDirectorResponse:
+    async def introduce_myself(self, schema) -> JamesDirectorResponse:
         '''제임스 감독의 자기소개 인터렉트'''
         
         return  await self.repository.introduce_myself(JamesDirectorQuery(
@@ -19,7 +18,7 @@ class JamesDirectorInteractor(JamesDirectorUseCase):
         ))
 
 
-    async def upload_titanic_file(self, schema: list[FileUploadSchema]) -> dict:
+    async def upload_titanic_file(self, schema: list) -> dict:
         person_commands = [
             PassengerCommand(
                 passenger_id=record.passenger_id or "",

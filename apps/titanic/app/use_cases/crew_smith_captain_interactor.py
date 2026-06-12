@@ -12,7 +12,8 @@ class SmithCaptainInteractor(SmithCaptainUseCase):
         self.repository = repository
 
     async def chat(self, schema: ChatSchema) -> SmithCaptainResponse:
-        return await self.repository.chat(schema.message)
+        last = schema.messages[-1].text if schema.messages else ""
+        return await self.repository.chat(last)
 
     async def introduce_myself(self, schema: SmithCaptainSchema) -> SmithCaptainResponse:
         '''스미스 선장의 자기소개 인터렉트'''
