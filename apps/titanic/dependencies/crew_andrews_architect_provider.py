@@ -6,9 +6,15 @@ from core.matrix.grid_oracle_database_manager import get_db
 from titanic.app.ports.input.crew_andrews_architect_use_case import AndrewsArchitectUseCase
 from titanic.app.use_cases.crew_andrews_architect_interactor import AndrewsArchitectInteractor
 
-def get_andrews_architect_use_case(
+def get_andrews_architect_repository(
         db : AsyncSession = Depends(get_db)
+) -> AndrewsArchitectRepository:
+        
+        return AndrewsArchitectPgRepository(session=db)
+
+def get_andrews_architect_use_case(
+        repository : AndrewsArchitectRepository = Depends(get_andrews_architect_repository)
 ) -> AndrewsArchitectUseCase:
-        repository : AndrewsArchitectRepository = AndrewsArchitectPgRepository(session=db)
+        
         return AndrewsArchitectInteractor(repository=repository)
        

@@ -6,7 +6,7 @@ from scout.adapter.inbound.api.schemas.game_detail_schema import (
     GameDetailSchema,
     PatchNoteSchema,
 )
-from scout.app.dependencies.game_detail import get_game_detail_use_case
+from scout.dependencies.game_detail_provider import get_game_detail_use_case
 from scout.app.ports.input.game_detail_use_case import GameDetailUseCase
 
 game_detail_router = APIRouter(prefix="/scout/games", tags=["scout"])

@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 
 from scout.adapter.inbound.api.schemas.scout_genre_schema import GenreHubSchema
-from scout.app.dependencies.genre_hubs import get_metroidvania_use_case
+from scout.dependencies.genre_hubs_provider import get_metroidvania_use_case
 from scout.app.ports.input.genre_hub_use_case import GenreHubUseCase
 
 metroidvania_router = APIRouter(prefix="/scout/metroidvania", tags=["scout"])

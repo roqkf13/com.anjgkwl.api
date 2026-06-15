@@ -6,8 +6,16 @@ from core.matrix.grid_oracle_database_manager import get_db
 from titanic.app.ports.input.passenger_cal_tester_use_case import CalTesterUseCase
 from titanic.app.use_cases.passenger_cal_tester_interactor import CalTesterInteractor
 
-def get_cal_test_use_case(
+
+def get_cal_tester_repository(
         db: AsyncSession = Depends(get_db)
+) -> CalTesterRepository:
+
+    return CalTesterPgRepository(session=db)
+
+
+def get_cal_tester_use_case(
+        repository: CalTesterRepository = Depends(get_cal_tester_repository)
 ) -> CalTesterUseCase:
-    repository: CalTesterRepository = CalTesterPgRepository(session=db)
+
     return CalTesterInteractor(repository=repository)

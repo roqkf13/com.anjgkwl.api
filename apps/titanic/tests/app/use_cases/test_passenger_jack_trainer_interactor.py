@@ -36,3 +36,21 @@ class TestIntroduceMyself:
         response = await interactor.introduce_myself(schema)
 
         assert response == JackTrainerResponse(id=9, name="Jack Dawson")
+
+
+class TestAnalyzeMessageIntent:
+    async def test_extracts_noun_keywords(self, interactor):
+        result = await interactor.analyze_message_intent("타이타닉 생존자는 몇 명인가요?")
+
+        assert "타이타닉" in result["keywords"]
+        assert "생존자" in result["keywords"]
+
+    async def test_detects_question_intent(self, interactor):
+        result = await interactor.analyze_message_intent("생존자는 몇 명인가요?")
+
+        assert result["intent"] == "question"
+
+    async def test_detects_statement_intent(self, interactor):
+        result = await interactor.analyze_message_intent("생존자는 1309명입니다.")
+
+        assert result["intent"] == "statement"

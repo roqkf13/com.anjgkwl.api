@@ -6,8 +6,16 @@ from titanic.app.ports.output.crew_james_director_repository import JamesDirecto
 from titanic.app.use_cases.crew_james_director_interactor import JamesDirectorInteractor
 from core.matrix.grid_oracle_database_manager import get_db
 
-def get_james_director_use_case(
+
+def get_james_director_repository(
     db: AsyncSession = Depends(get_db),
+) -> JamesDirectorRepository:
+
+    return JamesDirectorPgRepository(session=db)
+
+
+def get_james_director_use_case(
+    repository: JamesDirectorRepository = Depends(get_james_director_repository),
 ) -> JamesDirectorUseCase:
-    repository: JamesDirectorRepository = JamesDirectorPgRepository(session=db)
+
     return JamesDirectorInteractor(repository=repository)
