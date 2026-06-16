@@ -14,6 +14,6 @@ walter_roaster_router = APIRouter(prefix="/walter", tags=["walter"])
 
 @walter_roaster_router.get("/myself")
 async def introduce_myself(
-    use_case: WalterRoasterUseCase = Depends(get_walter_roaster_use_case),
+    walter: WalterRoasterUseCase = Depends(get_walter_roaster_use_case),
 ) -> WalterRoasterResponse:
-    return await use_case.introduce_myself(WalterRoasterSchema(id=2, name="Walter Nichols"))
+    return await walter.introduce_myself(WalterRoasterSchema(id=6, name="Walter Nichols"))

@@ -20,7 +20,7 @@ async def introduce_myself(
     
     return await isidor.introduce_myself(
         IsidorCoupleSchema(
-            id=12,
+            id=8,
             name="이시도르 & 이다 스트라우스 부부 (Isidor & Ida Straus)"
         )
     )

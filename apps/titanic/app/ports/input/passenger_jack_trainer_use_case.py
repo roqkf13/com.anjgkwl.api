@@ -13,8 +13,8 @@ class JackTrainerUseCase(ABC):
         pass
 
     @abstractmethod
-    async def get_model_info(self) -> dict[str, Any]:
-        pass
+    async def train_models(self, schema) -> JackTrainerResponse:
+        '''로즈가 제안한 모델들을 훈련시키는 메소드'''
 
     @abstractmethod
     async def analyze_jack_dawson(self) -> dict[str, Any]:

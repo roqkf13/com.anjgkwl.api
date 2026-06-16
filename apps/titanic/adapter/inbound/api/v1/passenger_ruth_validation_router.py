@@ -21,7 +21,7 @@ async def introduce_myself(
 ):
     return await ruth.introduce_myself(
         RuthValidationSchema(
-            id=14,
+            id=12,
             name="루스 드윗 부카터 (Ruth DeWitt Bukater)"
         )
     )

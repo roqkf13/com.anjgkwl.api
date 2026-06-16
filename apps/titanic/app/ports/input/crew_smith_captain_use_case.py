@@ -8,14 +8,11 @@ from titanic.app.ports.input.passenger_rose_model_use_case import RoseModelUseCa
 class SmithCaptainUseCase(ABC):
 
     @abstractmethod
-    def introduce_myself(self, schema: SmithCaptainSchema) -> SmithCaptainResponse:
+    async def introduce_myself(self, schema: SmithCaptainSchema) -> SmithCaptainResponse:
         '''스미스 선장의 자기소개 메소드'''
         pass
 
     @abstractmethod
-    async def chat(self, schema: ChatSchema,
-                   jack: JackTrainerUseCase,
-                   rose: RoseModelUseCase
-                   ) -> ChatResponse:
+    async def chat(self, schema: ChatSchema) -> ChatResponse:
         '''사용자 자연어 입력을 받아 채팅 응답을 반환'''
         pass

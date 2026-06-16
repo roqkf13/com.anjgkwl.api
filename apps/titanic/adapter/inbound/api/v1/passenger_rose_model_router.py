@@ -19,7 +19,7 @@ async def introduce_myself(
 ) -> RoseModelResponse:
     return await rose.introduce_myself(
         RoseModelSchema(
-            id=14,
+            id=11,
             name="로즈 드윗 부카터 (Rose DeWitt Bukater)"
         )
     )

@@ -74,3 +74,9 @@ titanic/
 
 모든 캐릭터는 `GET /{prefix}/myself` 엔드포인트를 가진다.  
 pg 레포지토리 mock 응답 형식: `id=query.id * 10000, name=query.name + "가 레포지토리에 다녀옴"`
+
+
+## 타이타닉 도메인 문서 연결
+
+
+타이타닉 도메인 문서연결

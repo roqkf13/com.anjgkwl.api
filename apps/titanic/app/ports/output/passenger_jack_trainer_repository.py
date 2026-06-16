@@ -10,4 +10,8 @@ class JackTrainerRepository(ABC):
     async def introduce_myself(self, query: JackTrainerQuery) -> JackTrainerResponse:
         '''잭 트레이너의 자기 소개 레포지토리 추상 메소드'''
         pass
-    
+
+    @abstractmethod
+    async def get_training_data(self) -> list[dict[str, Any]]:
+        """생존 예측 모델 학습용 전체 승객 피처 데이터를 반환한다."""
+        pass

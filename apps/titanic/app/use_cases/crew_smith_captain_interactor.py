@@ -9,6 +9,8 @@ from titanic.app.dtos.crew_smith_captain_dto import SmithCaptainQuery, SmithCapt
 from titanic.app.ports.input.crew_smith_captain_use_case import SmithCaptainUseCase
 from titanic.app.ports.input.passenger_jack_trainer_use_case import JackTrainerUseCase
 from titanic.app.ports.input.passenger_rose_model_use_case import RoseModelUseCase
+from titanic.app.ports.input.passenger_cal_tester_use_case import CalTesterUseCase
+from titanic.app.ports.input.crew_walter_roster_use_case import WalterRosterUseCase
 from titanic.app.ports.output.crew_smith_captain_repository import SmithCaptainRepository
 from titanic.app.use_cases.passenger_jack_trainer_interactor import JackTrainerInteractor
 from titanic.app.use_cases.passenger_rose_model_interactor import RoseModelInteractor
@@ -19,15 +21,27 @@ logger = logging.getLogger(__name__)
 
 class SmithCaptainInteractor(SmithCaptainUseCase):
 
-    def __init__(self, repository: SmithCaptainRepository):
+    def __init__(
+            self, 
+            repository: SmithCaptainRepository = Depends(get_smith_captain_repository), 
+            jack: JackTrainerUseCase = Depends(get_jack_trainer_use_case),
+            rose: RoseModelUseCase = Depends(get_rose_model_use_case),
+            cal: CalTesterUseCase = Depends(get_cal_tester_use_case),
+            walter: WalterRoasterUseCase = Depends(get_walter_roaster_use_case)
+    ):
         self.repository = repository
+        self.jack = jack
+        self.rose = rose
+        self.cal = cal
+        self.walter = walter
   
 
-    async def chat(self, schema: ChatSchema,
-                   jack: JackTrainerUseCase = Depends(get_jack_trainer_use_case),
-                   rose: RoseModelUseCase = Depends(get_rose_model_use_case)
-                   ) -> ChatResponse:
+    async def chat(self, schema: ChatSchema) -> ChatResponse:
         logger.info(f"[SmithCaptainInteractor] chat 진입 | messages={schema.messages}")
+        train_set = self.walter.get_train_set()
+        test_set = self.walter.get_test_set()
+        self.jack.train_model(train_set)
+        self.cal.test_model(test_set)
 
         return ChatResponse(text="1309명 입니다")
 

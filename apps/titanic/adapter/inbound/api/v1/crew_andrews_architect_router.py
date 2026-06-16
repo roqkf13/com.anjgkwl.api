@@ -19,7 +19,7 @@ async def introduce_myself(
 )-> AndrewsArchitectResponse:
     return await andrews.introduce_myself(
         AndrewsArchitectSchema(
-            id=2,
+            id=1,
             name="토마스 앤드류스 (Thomas Andrews)"
         )
     )

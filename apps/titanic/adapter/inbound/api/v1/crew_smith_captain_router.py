@@ -26,13 +26,11 @@ smith_captain_router = APIRouter(prefix="/smith", tags=["smith"])
 @smith_captain_router.post("/chat")
 async def chat(
     schema: Annotated[ChatSchema, Body()],
-    smith: SmithCaptainUseCase = Depends(get_smith_captain_use_case),
-    jack: JackTrainerUseCase = Depends(get_jack_trainer_use_case),
-    rose: RoseModelUseCase = Depends(get_rose_model_use_case)
+    smith: SmithCaptainUseCase = Depends(get_smith_captain_use_case)
 ) -> ChatResponse:
     for msg in schema.messages:
         logger.info("[smith/chat] messages | role=%s | text=%s", msg.role, msg.text)
-    return await smith.chat(schema, jack, rose )
+    return await smith.chat(schema)
 
 @smith_captain_router.get("/myself")
 async def introduce_myself(
@@ -40,7 +38,7 @@ async def introduce_myself(
 ) -> SmithCaptainResponse :
     return await smith.introduce_myself(
         SmithCaptainSchema(
-            id=7,
+            id=5,
             name="스미스 선장 (Captain Edward John Smith)"
         )
     )

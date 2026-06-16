@@ -20,7 +20,7 @@ async def introduce_myself(
 ) -> CalTesterResponse:
     return await cal.introduce_myself(
         CalTesterSchema(
-            id=2,
+            id=7,
             name="칼 캘던 하클리 (Caledon Hockley)"
         )
     )

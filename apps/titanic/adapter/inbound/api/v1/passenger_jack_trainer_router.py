@@ -20,7 +20,7 @@ async def introduce_myself(
 ) -> JackTrainerResponse :
     return await jack.introduce_myself(
         JackTrainerSchema(
-            id=13,
+            id=9,
             name="잭 도슨 (Jack Dawson)"
         )
     )

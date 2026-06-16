@@ -25,7 +25,7 @@ async def introduce_myself(
 ) -> MollyScalerResponse :
     return await molly.introduce_myself(
         MollyScalerSchema(
-            id=14,
+            id=10,
             name="몰리 브라운 (Molly Brown)"
         )
     )

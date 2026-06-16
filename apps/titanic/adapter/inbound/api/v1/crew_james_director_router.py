@@ -23,7 +23,7 @@ async def introduce_myself(
 ):
     return await james.introduce_myself(
         JamesDirectorSchema(
-            id=6,
+            id=3,
             name="제임스 카메론 (James Carmeron)"
         )
     )
