@@ -82,4 +82,4 @@ class JamesDirectorRepository(JamesDirectorPort):
         await self.session.execute(booking_stmt)
         await self.session.commit()
 
-        return len(booking_orms)
+        return len(booking_values)
