@@ -9,11 +9,11 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from titanic.app.dtos.passenger_jack_trainer_dto import JackTrainerQuery, JackTrainerResponse
-from titanic.adapter.outbound.orm.passenger_rose_model_orm import RoseModelOrm as BookingOrm
+from titanic.adapter.outbound.orm.passenger_rose_model_strategies import RoseModelOrm as BookingOrm
 from titanic.adapter.outbound.orm.passenger_jack_trainer_orm import JackTrainerOrm as PersonOrm
 
 
-class JackTrainerPgRepository:
+class JackTrainerRepository:
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
 
@@ -21,7 +21,7 @@ class JackTrainerPgRepository:
         
         '''잭 트레이너의 자기 소개 레포지토리 구현 메소드'''
 
-        logger.info(f"[JackTrainerPgRepository] introduce_myself 진입 | request_data={query}")
+        logger.info(f"[JackTrainerRepository] introduce_myself 진입 | request_data={query}")
         
         response: JackTrainerResponse = JackTrainerResponse(
             id= query.id * 10000,

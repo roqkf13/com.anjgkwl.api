@@ -53,10 +53,21 @@ def do_run_migrations(connection: Connection) -> None:
 
 
 async def run_async_migrations() -> None:
+    url = config.get_main_option("sqlalchemy.url") or ""
+    connect_args: dict = {}
+    if "+asyncpg" in url:
+        if "sslmode=require" in url:
+            connect_args["ssl"] = True
+        url = url.replace("?sslmode=require&channel_binding=require", "")
+        url = url.replace("&sslmode=require", "").replace("?sslmode=require", "")
+        url = url.replace("&channel_binding=require", "").replace("?channel_binding=require", "")
+        config.set_main_option("sqlalchemy.url", url)
+
     connectable = async_engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
+        connect_args=connect_args,
     )
     async with connectable.connect() as connection:
         await connection.run_sync(do_run_migrations)

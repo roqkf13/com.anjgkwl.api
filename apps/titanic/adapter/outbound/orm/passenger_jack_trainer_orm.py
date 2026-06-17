@@ -8,7 +8,7 @@ from core.matrix.gird_neo_theone_base import Base
 
 class JackTrainerOrm(Base):
     # 💥 클래스명은 JackTrainer이지만, 실제 DB 테이블은 표준 명칭으로 바인딩!
-    __tablename__ = "passengers" 
+    __tablename__ = "titanic_person"
     
     passenger_id: Mapped[str] = mapped_column(String, primary_key=True)
     name: Mapped[str | None] = mapped_column(String, nullable=True)

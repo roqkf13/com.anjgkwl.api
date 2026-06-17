@@ -6,7 +6,7 @@ from typing import Any
 from titanic.app.dtos.crew_james_director_dto import BookingCommand, JamesDirectorQuery, JamesDirectorResponse, PassengerCommand
 
 
-class JamesDirectorRepository(ABC):
+class JamesDirectorPort(ABC):
 
     @abstractmethod
     async def introduce_myself(self, query: JamesDirectorQuery) -> JamesDirectorResponse:

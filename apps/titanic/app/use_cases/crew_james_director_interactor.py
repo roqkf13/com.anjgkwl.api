@@ -1,12 +1,13 @@
 ﻿from __future__ import annotations
 
+from core.matrix.grid_oracle_database_manager import create_titanic_tables
 from titanic.app.ports.input.crew_james_director_use_case import JamesDirectorUseCase
-from titanic.app.ports.output.crew_james_director_repository import JamesDirectorRepository
+from titanic.app.ports.output.crew_james_director_port import JamesDirectorPort
 from titanic.app.dtos.crew_james_director_dto import BookingCommand, JamesDirectorQuery, JamesDirectorResponse, PassengerCommand
 
 
 class JamesDirectorInteractor(JamesDirectorUseCase):
-    def __init__(self, repository: JamesDirectorRepository) -> None:
+    def __init__(self, repository: JamesDirectorPort) -> None:
         self.repository = repository
 
     async def introduce_myself(self, schema) -> JamesDirectorResponse:
@@ -19,6 +20,7 @@ class JamesDirectorInteractor(JamesDirectorUseCase):
 
 
     async def upload_titanic_file(self, schema: list) -> dict:
+        await create_titanic_tables()
         person_commands = [
             PassengerCommand(
                 passenger_id=record.passenger_id or "",

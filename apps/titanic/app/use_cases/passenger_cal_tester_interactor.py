@@ -7,13 +7,13 @@ from typing import Any
 from titanic.adapter.inbound.api.schemas.passenger_cal_tester_schema import CalTesterSchema
 from titanic.app.dtos.passenger_cal_tester_dto import CalTesterQuery, CalTesterResponse
 from titanic.app.ports.input.passenger_cal_tester_use_case import CalTesterUseCase
-from titanic.app.ports.output.passenger_cal_tester_repository import CalTesterRepository
-from titanic.app.ports.input.passenger_rose_model_use_case import SurvivalPredictionStrategy
-from titanic.app.use_cases.passenger_rose_model_interactor import (
+from titanic.app.ports.output.passenger_cal_tester_port import CalTesterPort
+from titanic.adapter.outbound.orm.passenger_rose_model_strategies import (
     DecisionTreeStrategy,
     KNNStrategy,
     LogisticRegressionStrategy,
     RandomForestStrategy,
+    SurvivalModelStrategy,
     _build_training_set,
 )
 
@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 
 def _cross_validate(
-    strategy_cls: type[SurvivalPredictionStrategy],
+    strategy_cls: type[SurvivalModelStrategy],
     X: list[list[float]],
     y: list[int],
     n_splits: int = 5,
@@ -52,7 +52,7 @@ def _cross_validate(
 
 class CalTesterInteractor(CalTesterUseCase):
 
-    def __init__(self, repository: CalTesterRepository) -> None:
+    def __init__(self, repository: CalTesterPort) -> None:
         self.repository = repository
         self._scores: dict[str, Any] = {}
 
@@ -61,16 +61,16 @@ class CalTesterInteractor(CalTesterUseCase):
         query = CalTesterQuery(id=schema.id, name=schema.name)
         return await self.repository.introduce_myself(query)
 
-    async def test_model(self, schema: CalTesterSchema) -> CalTesterResponse:
-        """로즈가 훈련시킨 모델에 점수를 메기는 메소드.
-
-        4개 전략 각각에 대해 5-겹 Stratified K-Fold 교차검증을 수행하고
-        정확도 순위를 매긴다.
-        """
-        records = await self.repository.get_scoring_data()
+    def test_model(self, test_set) -> dict:
+        """walter가 가져온 test_set DataFrame으로 모델 점수를 채점하는 메소드."""
+        records = test_set.to_dict('records')
         X, y, _, _ = _build_training_set(records)
 
-        strategy_classes: list[tuple[str, type[SurvivalPredictionStrategy]]] = [
+        if not X:
+            self._scores = {"message": "채점할 레이블 데이터가 없습니다.", "ranking": []}
+            return self._scores
+
+        strategy_classes: list[tuple[str, type[SurvivalModelStrategy]]] = [
             ("random_forest",       RandomForestStrategy),
             ("logistic_regression", LogisticRegressionStrategy),
             ("decision_tree",       DecisionTreeStrategy),
@@ -102,15 +102,7 @@ class CalTesterInteractor(CalTesterUseCase):
             "sample_count": len(X),
             "cv_folds": 5,
         }
-
-        best_name, best_info = ranked[0]
-        return CalTesterResponse(
-            id=len(X),
-            name=(
-                f"[{schema.name}] 채점 완료 ({len(X)}건, 5-fold CV) | "
-                f"1위={best_name} ({best_info['cv_mean_accuracy']:.1%})"
-            ),
-        )
+        return self._scores
 
     def get_latest_scores(self) -> dict[str, Any]:
         """마지막 채점 결과를 반환한다. test_model 선호출 필요."""

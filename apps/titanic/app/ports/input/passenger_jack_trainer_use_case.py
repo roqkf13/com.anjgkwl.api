@@ -17,6 +17,10 @@ class JackTrainerUseCase(ABC):
         '''로즈가 제안한 모델들을 훈련시키는 메소드'''
 
     @abstractmethod
+    def train_model(self, train_set) -> dict:
+        '''walter가 가져온 train_set DataFrame으로 모델들을 훈련시키는 메소드'''
+
+    @abstractmethod
     async def analyze_jack_dawson(self) -> dict[str, Any]:
         pass
 

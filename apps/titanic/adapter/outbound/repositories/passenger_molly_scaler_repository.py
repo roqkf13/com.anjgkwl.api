@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from titanic.app.dtos.passenger_molly_scaler_dto import MollyScalerQuery, MollyScalerResponse
 
 
-class MollyScalerPgRepository:
+class MollyScalerRepository:
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
 
@@ -16,7 +16,7 @@ class MollyScalerPgRepository:
         
         '''몰리 스케일러의 자기 소개 레포지토리 구현 메소드'''
 
-        logger.info(f"[MollyScalerPgRepository] introduce_myself 진입 | request_data={query}")
+        logger.info(f"[MollyScalerRepository] introduce_myself 진입 | request_data={query}")
         
         response: MollyScalerResponse = MollyScalerResponse(
             id= query.id * 10000,

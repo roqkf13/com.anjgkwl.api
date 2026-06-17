@@ -81,10 +81,11 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
 
 def import_titanic_metadata():
     """Alembic·create_all용 — Person/Booking ORM을 metadata에 등록."""
-    from titanic.adapter.outbound.orm.passenger_rose_model_orm import RoseModelOrm  # noqa: F401
+    from core.matrix.gird_neo_theone_base import Base as TitanicBase
+    from titanic.adapter.outbound.orm.passenger_rose_model_strategies import RoseModelOrm  # noqa: F401
     from titanic.adapter.outbound.orm.passenger_jack_trainer_orm import JackTrainerOrm  # noqa: F401
 
-    return Base.metadata
+    return TitanicBase.metadata
 
 
 async def create_titanic_tables() -> None:

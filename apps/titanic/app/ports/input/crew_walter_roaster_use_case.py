@@ -10,11 +10,16 @@ class WalterRoasterUseCase(ABC):
         pass
 
     @abstractmethod
-    async def get_train_set(self):
-        '''훈련 데이터셋을 반환하는 메소드'''
+    async def load(self) -> None:
+        '''DB에서 train/test set을 가져와 캐싱하는 메소드'''
         pass
 
     @abstractmethod
-    async def get_test_set(self):
-        '''테스트 데이터셋을 반환하는 메소드'''
+    def get_train_set(self):
+        '''캐싱된 train set을 반환하는 메소드'''
+        pass
+
+    @abstractmethod
+    def get_test_set(self):
+        '''캐싱된 test set을 반환하는 메소드'''
         pass

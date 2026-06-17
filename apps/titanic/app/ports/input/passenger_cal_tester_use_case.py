@@ -15,7 +15,7 @@ class CalTesterUseCase(ABC):
         pass
 
     @abstractmethod
-    async def test_model(self, schema: CalTesterSchema) -> CalTesterResponse:
-        '''로즈가 훈련시킨 모델에 점수를 메기는 메소드'''
+    def test_model(self, test_set) -> dict:
+        '''walter가 가져온 test_set DataFrame으로 모델 점수를 채점하는 메소드'''
         pass
 

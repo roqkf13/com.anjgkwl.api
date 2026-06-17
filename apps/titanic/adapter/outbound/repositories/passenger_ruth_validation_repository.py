@@ -9,7 +9,7 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from titanic.app.dtos.passenger_ruth_validation_dto import RuthValidationQuery, RuthValidationResponse
-from titanic.adapter.outbound.orm.passenger_rose_model_orm import RoseModelOrm as BookingOrm
+from titanic.adapter.outbound.orm.passenger_rose_model_strategies import RoseModelOrm as BookingOrm
 from titanic.adapter.outbound.orm.passenger_jack_trainer_orm import JackTrainerOrm as PersonOrm
 
 
@@ -31,7 +31,7 @@ def _row_to_dict(person: PersonOrm, booking: BookingOrm | None) -> dict[str, Any
     }
 
 
-class RuthValidationPgRepository:
+class RuthValidationRepository:
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
 
@@ -39,7 +39,7 @@ class RuthValidationPgRepository:
         
         '''앤드류 설계자의 자기 소개 레포지토리 구현 메소드'''
 
-        logger.info(f"[RuthValidationPgRepository] introduce_myself 진입 | request_data={query}")
+        logger.info(f"[RuthValidationRepository] introduce_myself 진입 | request_data={query}")
         
         response: RuthValidationResponse = RuthValidationResponse(
             id= query.id * 10000,

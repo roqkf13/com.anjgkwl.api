@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Optional
 
 from titanic.adapter.outbound.orm.passenger_jack_trainer_orm import JackTrainerOrm as PersonOrm
-from titanic.adapter.outbound.orm.passenger_rose_model_orm import RoseModelOrm as BookingOrm
+from titanic.adapter.outbound.orm.passenger_rose_model_strategies import RoseModelOrm as BookingOrm
 from titanic.domain.entities.crew_james_director_entity import ManifestEntry
 from titanic.domain.value_objects.passenger_jack_trainer_vo import Age
 

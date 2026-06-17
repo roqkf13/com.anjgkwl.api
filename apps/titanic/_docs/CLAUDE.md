@@ -79,4 +79,10 @@ pg 레포지토리 mock 응답 형식: `id=query.id * 10000, name=query.name + "
 ## 타이타닉 도메인 문서 연결
 
 
-타이타닉 도메인 문서연결
+- 타이타닉 도메인 문서 연결
+- 타이타닉 피처 정리 : [[titanic-features]]
+- 타이타닉 머신러닝 : [[titanic-machine-learning]]
+- 타이타닉 ERD : [[titanic-erd]]
+- 타이타닉 NF : [[titanic-nf]]
+- 타이타닉 알고리즘 : [[titanic-algorithm]]
+- Backend 전체 지침 : [[abiswallow/CLAUDE|Backend 전체 지침]]

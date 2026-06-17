@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from titanic.adapter.outbound.orm.passenger_rose_model_orm import RoseModelOrm
+from titanic.adapter.outbound.orm.passenger_rose_model_strategies import RoseModelOrm
 
 # RoseModelEntity is not yet defined — mapper provides ORM ↔ dict conversion
 # until the domain entity is implemented.

@@ -12,7 +12,7 @@ from titanic.app.dtos.crew_smith_captain_dto import SmithCaptainQuery, SmithCapt
 from titanic.adapter.outbound.orm.passenger_jack_trainer_orm import JackTrainerOrm as PersonOrm
 
 
-class SmithCaptainPgRepository:
+class SmithCaptainRepository:
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
 
@@ -20,7 +20,7 @@ class SmithCaptainPgRepository:
         
         '''앤드류 설계자의 자기 소개 레포지토리 구현 메소드'''
 
-        logger.info(f"[SmithCaptainPgRepository] introduce_myself 진입 | request_data={query}")
+        logger.info(f"[SmithCaptainRepository] introduce_myself 진입 | request_data={query}")
         
         response: SmithCaptainResponse = SmithCaptainResponse(
             id= query.id * 10000,
@@ -29,7 +29,7 @@ class SmithCaptainPgRepository:
         return response
 
     async def chat(self, message: str) -> SmithCaptainResponse:
-        logger.info(f"[SmithCaptainPgRepository] chat 진입 | message={message}")
+        logger.info(f"[SmithCaptainRepository] chat 진입 | message={message}")
         return SmithCaptainResponse(id=0, name=message)
 
     async def get_stats(self) -> dict[str, Any]:
