@@ -1,4 +1,6 @@
 ﻿from abc import ABC, abstractmethod
+
+import pandas as pd
 from titanic.adapter.inbound.api.schemas.crew_walter_roaster_schema import WalterRoasterSchema
 from titanic.app.dtos.crew_walter_roaster_dto import WalterRoasterResponse
 
@@ -15,11 +17,11 @@ class WalterRoasterUseCase(ABC):
         pass
 
     @abstractmethod
-    def get_train_set(self):
+    def get_train_set(self) -> pd.DataFrame:
         '''캐싱된 train set을 반환하는 메소드'''
         pass
 
     @abstractmethod
-    def get_test_set(self):
+    def get_test_set(self) -> pd.DataFrame:
         '''캐싱된 test set을 반환하는 메소드'''
         pass

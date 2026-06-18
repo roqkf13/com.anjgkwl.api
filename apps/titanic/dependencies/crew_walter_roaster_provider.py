@@ -18,6 +18,5 @@ async def get_walter_roaster_use_case(
         repository: WalterRoasterPort = Depends(get_walter_roaster_repository)
 ) -> WalterRoasterUseCase:
 
-    interactor = WalterRoasterInteractor(repository=repository)
-    await interactor.load()
-    return interactor
+    
+    return WalterRoasterInteractor(repository=repository)

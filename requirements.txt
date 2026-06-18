@@ -7,6 +7,8 @@ psycopg[binary]
 python-dotenv
 pandas
 scikit-learn
+matplotlib
+seaborn
 google-genai
 passlib[bcrypt]
 bcrypt>=4.0.1,<5

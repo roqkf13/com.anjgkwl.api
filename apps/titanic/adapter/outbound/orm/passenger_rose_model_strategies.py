@@ -28,9 +28,13 @@ class RoseModelOrm(Base):
 _EMBARKED_MAP: dict[str, float] = {"C": 0.0, "Q": 1.0, "S": 2.0}
 
 
+def _nonempty(v: Any) -> bool:
+    return v is not None and str(v).strip() != ""
+
+
 def _compute_medians(records: list[dict[str, Any]]) -> tuple[float, float]:
-    ages = [r["age"] for r in records if r.get("age") is not None]
-    fares = [r["fare"] for r in records if r.get("fare") is not None]
+    ages = [float(r["age"]) for r in records if _nonempty(r.get("age"))]
+    fares = [float(r["fare"]) for r in records if _nonempty(r.get("fare"))]
     return (
         statistics.median(ages) if ages else 30.0,
         statistics.median(fares) if fares else 14.45,
@@ -40,8 +44,8 @@ def _compute_medians(records: list[dict[str, Any]]) -> tuple[float, float]:
 def _to_feature_vector(r: dict[str, Any], age_med: float, fare_med: float) -> list[float]:
     pclass = float(r.get("pclass") or 2)
     gender = 1.0 if (r.get("gender") or "").lower() == "male" else 0.0
-    age = float(r["age"]) if r.get("age") is not None else age_med
-    fare = float(r["fare"]) if r.get("fare") is not None else fare_med
+    age = float(r["age"]) if _nonempty(r.get("age")) else age_med
+    fare = float(r["fare"]) if _nonempty(r.get("fare")) else fare_med
     embarked = _EMBARKED_MAP.get(r.get("embarked") or "", 2.0)
     sibsp = float(r.get("sibsp") or 0)
     parch = float(r.get("parch") or 0)
@@ -54,7 +58,7 @@ def _build_training_set(
     records: list[dict[str, Any]],
 ) -> tuple[list[list[float]], list[int], float, float]:
     age_med, fare_med = _compute_medians(records)
-    labeled = [r for r in records if r.get("survived") is not None]
+    labeled = [r for r in records if _nonempty(r.get("survived"))]
     X = [_to_feature_vector(r, age_med, fare_med) for r in labeled]
     y = [int(r["survived"]) for r in labeled]
     return X, y, age_med, fare_med

@@ -9,6 +9,11 @@ from titanic.app.dtos.crew_lowe_boat_dto import LoweBoatResponse
 class LoweBoatUseCase(ABC):
 
     @abstractmethod
+    def feature_engineering(self, train_set) -> pd.DataFrame:
+        '''로우 보우트의 feature engineering 메소드'''
+        pass
+
+    @abstractmethod
     async def introduce_myself(self, schema: LoweBoatSchema) -> LoweBoatResponse:
         '''로우 보우트의 자기소개 메소드'''
         pass
