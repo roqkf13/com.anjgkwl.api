@@ -95,8 +95,6 @@ app.include_router(silicon_valley_router)
 app.include_router(name_router, prefix="/api/v1")
 app.include_router(titanic_router)
 
-app.include_router(titanic_router, prefix="/api")
-
 @app.get("/")
 def read_root():
     return {"message": "FAST API 메인 페이지 ", "docs": "/docs"}
