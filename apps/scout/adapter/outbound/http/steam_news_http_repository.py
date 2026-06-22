@@ -19,7 +19,7 @@ from scout.domain.patch_note_format import blocks_to_plain_body
 logger = logging.getLogger(__name__)
 
 _STEAM_NEWS_URL = "https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/"
-_DEFAULT_COUNT = 5
+_DEFAULT_COUNT = 15
 _FETCH_TIMEOUT_SEC = 8
 _STEAM_CLAN_CDN = "https://clan.fastly.steamstatic.com/images"
 

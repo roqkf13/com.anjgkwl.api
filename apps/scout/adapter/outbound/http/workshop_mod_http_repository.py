@@ -20,8 +20,9 @@ _WORKSHOP_QUERY_URL = (
 )
 _DEFAULT_LIMIT = 10
 _SUMMARY_MAX = 280
-# EPublishedFileQueryType: 3 = RankedByTrend
-_QUERY_TYPE_TRENDING = 3
+# EPublishedFileQueryType: 12 = RankedByTotalSubscriptions
+_QUERY_TYPE_TRENDING = 12
+_MIN_SUBSCRIPTIONS = 20_000
 
 
 def _steam_api_key() -> str:
@@ -128,6 +129,8 @@ class WorkshopModHttpRepository:
 
         mods: list[ModDto] = []
         for item in _parse_workshop_items(payload)[:limit]:
+            if int(item.get("subscriptions") or 0) < _MIN_SUBSCRIPTIONS:
+                continue
             dto = _to_mod_dto(steam_app_id=steam_app_id, item=item)
             if dto:
                 mods.append(dto)

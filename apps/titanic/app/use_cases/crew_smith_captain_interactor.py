@@ -54,7 +54,7 @@ class SmithCaptainInteractor(SmithCaptainUseCase):
         return ChatResponse(text=answer)
 
     def _process_chat(self, schema: ChatSchema, train_set: DataFrame) -> str:
-        from core.matrix.vault_keymaker_secret_manager import generate_reply
+        from core.matrix.ollama_neo_local_model import generate_reply_ollama as generate_reply
         from titanic.adapter.outbound.orm.passenger_rose_model_strategies import (
             RandomForestStrategy,
             _build_training_set,
