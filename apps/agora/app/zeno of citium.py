@@ -1,4 +1,4 @@
-class Zeno of Citium:
+class ZenoOfCitium:
 
     def __init__(self):
         pass
