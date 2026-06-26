@@ -6,7 +6,7 @@ WORKDIR /app
 
 # 3. 라이브러리 목록 복사 및 설치
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --prefer-binary -r requirements.txt
 
 # 4. 나머지 백엔드 소스 코드 전부 복사
 COPY . .
