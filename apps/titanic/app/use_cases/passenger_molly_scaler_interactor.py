@@ -21,3 +21,7 @@ class MollyScalerInteractor(MollyScalerUseCase):
 
     async def scale_features(self, schema: MollyScalerSchema) -> MollyScalerResponse:
         raise NotImplementedError
+
+
+
+#테스트용 의미없는주석
