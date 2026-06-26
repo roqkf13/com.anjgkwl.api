@@ -28,6 +28,10 @@ serviceAccount*.json
 auth.json
 token.txt
 *.token
+pytorch_env/
+.pytest_cache/
+.obsidian/
+.vscode/
 
 # ---------------------------------------------------------------------------
 # Cursor / IDE (로컬 MCP, 토큰, 머신별 설정)
