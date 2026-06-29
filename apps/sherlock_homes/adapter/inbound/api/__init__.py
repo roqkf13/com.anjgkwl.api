@@ -1,0 +1,6 @@
+from fastapi import APIRouter
+
+from sherlock_homes.adapter.inbound.api.v1.detective_watson_executor_router import watson_executor_router
+
+sherlock_homes_router = APIRouter(prefix="/sherlock-homes", tags=["sherlock-homes"])
+sherlock_homes_router.include_router(watson_executor_router)
