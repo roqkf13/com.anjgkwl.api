@@ -1,32 +1,89 @@
-from fastapi import APIRouter, Depends
+import csv
+from io import StringIO
 
-from sherlock_homes.adapter.inbound.api.schemas.detective_watson_executor_schema import WatsonExecutorSchema, WatsonSendEmailRequest
+from typing import Literal
+
+from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
+
+from sherlock_homes.adapter.inbound.api.schemas.detective_watson_executor_schema import (
+    WatsonExecutorSchema,
+    WatsonSendEmailRequest,
+)
+from sherlock_homes.adapter.inbound.api.schemas.juso_schema import ContactItemSchema, ContactListSchema, ContactRowSchema, ContactUploadResultSchema
 from sherlock_homes.app.dtos.detective_watson_executor_dto import WatsonExecutorResponse, WatsonSendEmailResult
 from sherlock_homes.app.ports.input.detective_watson_executor_use_case import WatsonExecutorUseCase
-from sherlock_homes.dependencies.detective_watson_executor_provider import get_watson_executor_use_case
-
-'''
-존 왓슨 (John)
-역할 (keyword): executor (실행/조율자)
-셜록의 파트너인 사설 탐정 조력자.
-탐정의 추론 결과를 실제 현실 세계의 액션과 인간의 언어(블로그 등)로 번역하고 최종 사용자 인터페이스를 조율 및 실행합니다.
-'''
+from sherlock_homes.app.ports.input.juso_use_case import JusoUseCase
+from sherlock_homes.dependencies.detective_watson_executor_provider import get_watson_executor_interactor
+from sherlock_homes.dependencies.juso_provider import get_juso_use_case
 
 watson_executor_router = APIRouter(prefix="/watson", tags=["watson"])
 
 
-@watson_executor_router.get("/myself")
+@watson_executor_router.post("/introduce", response_model=WatsonExecutorResponse)
 async def introduce_myself(
-    watson: WatsonExecutorUseCase = Depends(get_watson_executor_use_case)
+    schema: WatsonExecutorSchema,
+    use_case: WatsonExecutorUseCase = Depends(get_watson_executor_interactor),
 ) -> WatsonExecutorResponse:
-    return await watson.introduce_myself(
-        WatsonExecutorSchema(id=10, name="존 왓슨 (John)")
+    return await use_case.introduce_myself(schema)
+
+
+@watson_executor_router.post("/send-email", response_model=WatsonSendEmailResult)
+async def send_email(
+    schema: WatsonSendEmailRequest,
+    use_case: WatsonExecutorUseCase = Depends(get_watson_executor_interactor),
+) -> WatsonSendEmailResult:
+    return await use_case.send_email(schema)
+
+
+@watson_executor_router.get("/contacts", response_model=ContactListSchema, summary="주소록 목록 조회")
+async def list_contacts(
+    juso: JusoUseCase = Depends(get_juso_use_case),
+) -> ContactListSchema:
+    result = await juso.list_contacts()
+    return ContactListSchema(
+        total=result.total,
+        contacts=[ContactItemSchema(**vars(c)) for c in result.contacts],
     )
 
 
-@watson_executor_router.post("/send-email")
-async def send_email(
-    body: WatsonSendEmailRequest,
-    watson: WatsonExecutorUseCase = Depends(get_watson_executor_use_case),
-) -> WatsonSendEmailResult:
-    return await watson.send_email(body)
+@watson_executor_router.post("/contacts/upload", response_model=ContactUploadResultSchema, summary="Google 연락처 CSV 업로드")
+async def upload_contacts(
+    file: UploadFile = File(...),
+    mode: Literal["replace", "upsert"] = Query("replace", description="replace: 전체 교체 / upsert: 누적 추가"),
+    juso: JusoUseCase = Depends(get_juso_use_case),
+) -> ContactUploadResultSchema:
+    rows = _parse_csv((await file.read()).decode("utf-8", errors="replace"))
+    if mode == "upsert":
+        result = await juso.upsert_contacts(rows)
+    else:
+        result = await juso.upload_contacts(rows)
+    return ContactUploadResultSchema(
+        total=result.total,
+        contacts=[ContactRowSchema(**vars(c)) for c in result.contacts],
+    )
+
+
+def _parse_csv(text: str) -> list[ContactRowSchema]:
+    if not text.strip():
+        raise HTTPException(status_code=400, detail="빈 CSV 파일입니다.")
+    reader = csv.DictReader(StringIO(text))
+    if reader.fieldnames is None:
+        raise HTTPException(status_code=400, detail="CSV 헤더를 읽을 수 없습니다.")
+    return [ContactRowSchema(**_normalize_contact_row(row)) for row in reader]
+
+
+def _normalize_contact_row(row: dict) -> dict:
+    normalized = {}
+    for raw_key, value in row.items():
+        if raw_key is None:
+            continue
+        key = (
+            raw_key.strip()
+            .replace(" - ", "_")
+            .replace(" ", "_")
+            .replace("-", "_")
+            .lower()
+            .replace("__", "_")
+        )
+        normalized[key] = value or ""
+    return normalized
