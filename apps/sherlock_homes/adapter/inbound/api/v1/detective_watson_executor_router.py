@@ -10,7 +10,12 @@ from sherlock_homes.adapter.inbound.api.schemas.detective_watson_executor_schema
     WatsonSendEmailRequest,
 )
 from sherlock_homes.adapter.inbound.api.schemas.juso_schema import ContactItemSchema, ContactListSchema, ContactRowSchema, ContactUploadResultSchema
-from sherlock_homes.app.dtos.detective_watson_executor_dto import WatsonExecutorResponse, WatsonSendEmailResult
+from sherlock_homes.app.dtos.detective_watson_executor_dto import (
+    WatsonExecutorQuery,
+    WatsonExecutorResponse,
+    WatsonSendEmailQuery,
+    WatsonSendEmailResult,
+)
 from sherlock_homes.app.ports.input.detective_watson_executor_use_case import WatsonExecutorUseCase
 from sherlock_homes.app.ports.input.juso_use_case import JusoUseCase
 from sherlock_homes.dependencies.detective_watson_executor_provider import get_watson_executor_interactor
@@ -24,7 +29,8 @@ async def introduce_myself(
     schema: WatsonExecutorSchema,
     use_case: WatsonExecutorUseCase = Depends(get_watson_executor_interactor),
 ) -> WatsonExecutorResponse:
-    return await use_case.introduce_myself(schema)
+    query = WatsonExecutorQuery(id=schema.id, name=schema.name)
+    return await use_case.introduce_myself(query)
 
 
 @watson_executor_router.post("/send-email", response_model=WatsonSendEmailResult)
@@ -32,7 +38,8 @@ async def send_email(
     schema: WatsonSendEmailRequest,
     use_case: WatsonExecutorUseCase = Depends(get_watson_executor_interactor),
 ) -> WatsonSendEmailResult:
-    return await use_case.send_email(schema)
+    query = WatsonSendEmailQuery(to=schema.to, prompt=schema.prompt, from_account=schema.from_account)
+    return await use_case.send_email(query)
 
 
 @watson_executor_router.get("/contacts", response_model=ContactListSchema, summary="주소록 목록 조회")
@@ -53,10 +60,11 @@ async def upload_contacts(
     juso: JusoUseCase = Depends(get_juso_use_case),
 ) -> ContactUploadResultSchema:
     rows = _parse_csv((await file.read()).decode("utf-8", errors="replace"))
+    commands = [r.to_command() for r in rows]
     if mode == "upsert":
-        result = await juso.upsert_contacts(rows)
+        result = await juso.upsert_contacts(commands)
     else:
-        result = await juso.upload_contacts(rows)
+        result = await juso.upload_contacts(commands)
     return ContactUploadResultSchema(
         total=result.total,
         contacts=[ContactRowSchema(**vars(c)) for c in result.contacts],

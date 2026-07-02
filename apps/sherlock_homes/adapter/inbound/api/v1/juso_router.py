@@ -6,9 +6,8 @@ from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sherlock_homes.adapter.inbound.api.schemas.juso_schema import (
     ContactRowSchema,
     ContactUploadResultSchema,
-    JusoSchema,
 )
-from sherlock_homes.app.dtos.juso_dto import JusoResponse
+from sherlock_homes.app.dtos.juso_dto import JusoQuery, JusoResponse
 from sherlock_homes.app.ports.input.juso_use_case import JusoUseCase
 from sherlock_homes.dependencies.juso_provider import get_juso_use_case
 
@@ -20,7 +19,7 @@ async def introduce_myself(
     juso: JusoUseCase = Depends(get_juso_use_case),
 ) -> JusoResponse:
     return await juso.introduce_myself(
-        JusoSchema(id=14, name="주소 검색기 (Juso)")
+        JusoQuery(id=14, name="주소 검색기 (Juso)")
     )
 
 
@@ -30,7 +29,7 @@ async def upload_contacts(
     juso: JusoUseCase = Depends(get_juso_use_case),
 ) -> ContactUploadResultSchema:
     rows = _parse_csv((await file.read()).decode("utf-8", errors="replace"))
-    result = await juso.upload_contacts(rows)
+    result = await juso.upload_contacts([r.to_command() for r in rows])
     return ContactUploadResultSchema(
         total=result.total,
         contacts=[ContactRowSchema(**vars(c)) for c in result.contacts],

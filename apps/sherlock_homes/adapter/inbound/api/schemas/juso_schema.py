@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field
 
+from sherlock_homes.app.dtos.juso_dto import ContactCommand
+
 
 class JusoSchema(BaseModel):
     id: int = Field(0, description="Search ID")
@@ -39,6 +41,9 @@ class ContactRowSchema(BaseModel):
     e_mail_2_value: str = ""
     phone_1_label: str = ""
     phone_1_value: str = ""
+
+    def to_command(self) -> ContactCommand:
+        return ContactCommand(**self.model_dump())
 
 
 class ContactUploadResultSchema(BaseModel):

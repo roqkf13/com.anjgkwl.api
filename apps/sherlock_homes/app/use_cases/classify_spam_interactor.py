@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-import asyncio
 import json
 import re
 
 from sherlock_homes.app.dtos.classify_spam_dto import ClassifySpamQuery, ClassifySpamResult
 from sherlock_homes.app.ports.input.classify_spam_use_case import ClassifySpamUseCase
+from sherlock_homes.app.ports.output.classify_spam_llm_port import ClassifySpamLlmPort
 from star_craft.domain.ontology.spam.spam_category import SpamCategory
 from star_craft.domain.ontology.spam.spam_taxonomy import TAXONOMY_INDEX
 
@@ -32,15 +32,13 @@ def _build_system_prompt() -> str:
 
 class ClassifySpamInteractor(ClassifySpamUseCase):
 
+    def __init__(self, llm_gateway: ClassifySpamLlmPort) -> None:
+        self._llm_gateway = llm_gateway
+
     async def classify(self, query: ClassifySpamQuery) -> ClassifySpamResult:
         message = f"제목: {query.subject}\n본문: {query.body}"
-        raw = await asyncio.to_thread(self._call_llm, message)
+        raw = await self._llm_gateway.classify_raw(message=message, system=_build_system_prompt())
         return self._parse(raw)
-
-    def _call_llm(self, message: str) -> str:
-        from core.lol.t1_mid_faker_orchestrator import generate_reply_exaone
-
-        return generate_reply_exaone(message=message, system=_build_system_prompt())
 
     def _parse(self, raw: str) -> ClassifySpamResult:
         match = re.search(r'\{.*\}', raw, re.DOTALL)

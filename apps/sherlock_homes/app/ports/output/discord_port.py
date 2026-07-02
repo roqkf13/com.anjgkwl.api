@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from sherlock_homes.app.dtos.discord_dto import DiscordQuery, DiscordResponse
 
 
-class DiscordRepository(ABC):
+class DiscordPort(ABC):
 
     @abstractmethod
     async def introduce_myself(self, query: DiscordQuery) -> DiscordResponse:

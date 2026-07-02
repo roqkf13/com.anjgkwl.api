@@ -3,10 +3,10 @@ import os
 import httpx
 
 from sherlock_homes.app.dtos.detective_watson_executor_dto import WatsonSendEmailQuery, WatsonSendEmailResult
-from sherlock_homes.app.ports.output.watson_email_gateway_port import WatsonEmailGatewayPort
+from sherlock_homes.app.ports.output.detective_watson_executor_email_gateway_port import WatsonEmailGatewayPort
 
 
-class N8nEmailGateway(WatsonEmailGatewayPort):
+class N8nEmailRepository(WatsonEmailGatewayPort):
 
     def __init__(self) -> None:
         self.webhook_url = os.getenv("N8N_WEBHOOK_URL", "")

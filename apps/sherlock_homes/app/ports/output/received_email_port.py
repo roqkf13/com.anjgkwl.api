@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from sherlock_homes.app.dtos.received_email_dto import ReceivedEmailCommand, ReceivedEmailListResult, ReceivedEmailResult
 
 
-class ReceivedEmailRepository(ABC):
+class ReceivedEmailPort(ABC):
 
     @abstractmethod
     async def save(self, command: ReceivedEmailCommand) -> ReceivedEmailResult: ...

@@ -2,10 +2,6 @@ from __future__ import annotations
 
 import asyncio
 
-from sherlock_homes.adapter.inbound.api.schemas.detective_watson_executor_schema import (
-    WatsonExecutorSchema,
-    WatsonSendEmailRequest,
-)
 from sherlock_homes.app.dtos.detective_watson_executor_dto import (
     WatsonExecutorQuery,
     WatsonExecutorResponse,
@@ -13,28 +9,21 @@ from sherlock_homes.app.dtos.detective_watson_executor_dto import (
     WatsonSendEmailResult,
 )
 from sherlock_homes.app.ports.input.detective_watson_executor_use_case import WatsonExecutorUseCase
-from sherlock_homes.app.ports.output.detective_watson_executor_repository import WatsonExecutorRepository
-from sherlock_homes.app.ports.output.watson_email_gateway_port import WatsonEmailGatewayPort
+from sherlock_homes.app.ports.output.detective_watson_executor_port import WatsonExecutorPort
+from sherlock_homes.app.ports.output.detective_watson_executor_email_gateway_port import WatsonEmailGatewayPort
 from core.lol.t1_mid_faker_orchestrator import generate_reply_exaone
 
 
 class WatsonExecutorInteractor(WatsonExecutorUseCase):
 
-    def __init__(self, repo: WatsonExecutorRepository, email_gateway: WatsonEmailGatewayPort) -> None:
+    def __init__(self, repo: WatsonExecutorPort, email_gateway: WatsonEmailGatewayPort) -> None:
         self._repo = repo
         self._email_gateway = email_gateway
 
-    async def introduce_myself(self, schema: WatsonExecutorSchema) -> WatsonExecutorResponse:
-        query = WatsonExecutorQuery(id=schema.id, name=schema.name)
+    async def introduce_myself(self, query: WatsonExecutorQuery) -> WatsonExecutorResponse:
         return await self._repo.introduce_myself(query)
 
-    async def send_email(self, schema: WatsonSendEmailRequest) -> WatsonSendEmailResult:
-        query = WatsonSendEmailQuery(
-            to=schema.to,
-            prompt=schema.prompt,
-            from_account=schema.from_account,
-        )
-
+    async def send_email(self, query: WatsonSendEmailQuery) -> WatsonSendEmailResult:
         system = (
             "당신은 이메일 작성 전문가입니다. "
             "사용자의 지시를 바탕으로 자연스러운 한국어 이메일을 작성하세요. "
@@ -44,11 +33,11 @@ class WatsonExecutorInteractor(WatsonExecutorUseCase):
         )
         raw = await asyncio.to_thread(
             generate_reply_exaone,
-            message=schema.prompt,
+            message=query.prompt,
             system=system,
         )
 
-        subject, body = self._parse_subject_body(raw, schema.prompt)
+        subject, body = self._parse_subject_body(raw, query.prompt)
         return await self._email_gateway.send_email(query, subject=subject, body=body)
 
     @staticmethod

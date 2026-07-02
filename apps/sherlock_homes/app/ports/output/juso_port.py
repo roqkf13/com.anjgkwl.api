@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from sherlock_homes.app.dtos.juso_dto import ContactCommand, ContactListResult, ContactUploadResult, JusoQuery, JusoResponse
 
 
-class JusoRepository(ABC):
+class JusoPort(ABC):
 
     @abstractmethod
     async def introduce_myself(self, query: JusoQuery) -> JusoResponse:

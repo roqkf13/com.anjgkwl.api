@@ -1,7 +1,7 @@
 from functools import lru_cache
 
-from sherlock_homes.adapter.outbound.n8n_email_gateway import N8nEmailGateway
-from sherlock_homes.adapter.outbound.watson_memory_repository import WatsonMemoryRepository
+from sherlock_homes.adapter.outbound.repositories.n8n_email_repository import N8nEmailRepository
+from sherlock_homes.adapter.outbound.repositories.watson_memory_repository import WatsonMemoryRepository
 from sherlock_homes.app.use_cases.detective_watson_executor_interactor import WatsonExecutorInteractor
 
 
@@ -9,5 +9,5 @@ from sherlock_homes.app.use_cases.detective_watson_executor_interactor import Wa
 def get_watson_executor_interactor() -> WatsonExecutorInteractor:
     return WatsonExecutorInteractor(
         repo=WatsonMemoryRepository(),
-        email_gateway=N8nEmailGateway(),
+        email_gateway=N8nEmailRepository(),
     )
