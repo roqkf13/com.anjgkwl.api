@@ -6,3 +6,8 @@ class VisionUploadResponseSchema(BaseModel):
     content_type: str
     size_bytes: int
     message: str
+
+
+class FaceRecognitionResponseSchema(BaseModel):
+    name: str
+    confidence: float
